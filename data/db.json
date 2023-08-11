@@ -1,0 +1,163 @@
+{
+  "medicaments": [
+    {
+      "id": 1,
+      "nom": "Medicament 1",
+      "prix_hospitalier": 12.5,
+      "tarif": 5000,
+      "denomination": "Generic Denom 1",
+      "prix_public": 20,
+      "nombre_de_boites": 10,
+      "etat": false
+    },
+    {
+      "id": 2,
+      "nom": "Medicament 2",
+      "prix_hospitalier": 8,
+      "tarif": 2,
+      "denomination": "Generic Denom 2",
+      "prix_public": 15,
+      "nombre_de_boites": 5,
+      "etat": false
+    },
+    {
+      "id": 3,
+      "nom": "Medicament 3",
+      "prix_hospitalier": 15,
+      "tarif": 1,
+      "denomination": "Generic Denom 3",
+      "prix_public": 25,
+      "nombre_de_boites": 8,
+      "etat": true
+    },
+    {
+      "id": 4,
+      "nom": "Medicament 4",
+      "prix_hospitalier": 10,
+      "tarif": 3,
+      "denomination": "Generic Denom 4",
+      "prix_public": 18,
+      "nombre_de_boites": 12,
+      "etat": true
+    },
+    {
+      "id": 5,
+      "nom": "Medicament 5",
+      "prix_hospitalier": 20,
+      "tarif": 2,
+      "denomination": "Generic Denom 5",
+      "prix_public": 30,
+      "nombre_de_boites": 15,
+      "etat": false
+    },
+    {
+      "id": 6,
+      "nom": "Medicament 6",
+      "prix_hospitalier": 18.5,
+      "tarif": 3,
+      "denomination": "Generic Denom 6",
+      "prix_public": 30,
+      "nombre_de_boites": 7,
+      "etat": true
+    },
+    {
+      "id": 7,
+      "nom": "Medicament 7",
+      "prix_hospitalier": 22,
+      "tarif": 2,
+      "denomination": "Generic Denom 7",
+      "prix_public": 35,
+      "nombre_de_boites": 12,
+      "etat": false
+    },
+    {
+      "id": 8,
+      "nom": "Medicament 8",
+      "prix_hospitalier": 15.75,
+      "tarif": 1,
+      "denomination": "Generic Denom 8",
+      "prix_public": 25,
+      "nombre_de_boites": 5,
+      "etat": true
+    },
+    {
+      "id": 9,
+      "nom": "Medicament 9",
+      "prix_hospitalier": 10.5,
+      "tarif": 2,
+      "denomination": "Generic Denom 9",
+      "prix_public": 18,
+      "nombre_de_boites": 8,
+      "etat": false
+    },
+    {
+      "id": 10,
+      "nom": "Medicament 10",
+      "prix_hospitalier": 12,
+      "tarif": 3,
+      "denomination": "Generic Denom 10",
+      "prix_public": 22,
+      "nombre_de_boites": 9,
+      "etat": true
+    },
+    {
+      "id": 11,
+      "nom": "Medicament 11",
+      "prix_hospitalier": 20.5,
+      "tarif": 1,
+      "denomination": "Generic Denom 11",
+      "prix_public": 32,
+      "nombre_de_boites": 4,
+      "etat": false
+    },
+    {
+      "id": 12,
+      "nom": "Medicament 12",
+      "prix_hospitalier": 16.25,
+      "tarif": 2,
+      "denomination": "Generic Denom 12",
+      "prix_public": 28,
+      "nombre_de_boites": 6,
+      "etat": true
+    },
+    {
+      "id": 13,
+      "nom": "Medicament 13",
+      "prix_hospitalier": 14.75,
+      "tarif": 3,
+      "denomination": "Generic Denom 13",
+      "prix_public": 24,
+      "nombre_de_boites": 11,
+      "etat": false
+    },
+    {
+      "id": 14,
+      "nom": "Medicament 14",
+      "prix_hospitalier": 19,
+      "tarif": 1,
+      "denomination": "Generic Denom 14",
+      "prix_public": 31,
+      "nombre_de_boites": 3,
+      "etat": true
+    },
+    {
+      "id": 15,
+      "nom": "Medicament 15",
+      "prix_hospitalier": 17.5,
+      "tarif": 2,
+      "denomination": "Generic Denom 15",
+      "prix_public": 29,
+      "nombre_de_boites": 10,
+      "etat": false
+    },
+    {
+      "nom": "sthrtyh",
+      "prix_hospitalier": "12",
+      "tarif": "12",
+      "denomination": "skdjfze",
+      "prix_public": "12",
+      "nombre_de_boites": "12",
+      "id": 16
+    }
+  ]
+}
