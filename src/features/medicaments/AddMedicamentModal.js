@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Modal, Form, Input, Switch } from 'antd';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { getMedicaments, addMedicament, updateMedicament, deleteMedicament } from '../../api/medicamentsApi';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast,Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const MedicamentModal = ({ isVisible, onClose, onSubmit }) => {
+const AddMedicamentModal = ({ isVisible, onClose, onSubmit }) => {
 
     const [form] = Form.useForm();
     const [nom, setNom] = useState("");
@@ -15,7 +15,6 @@ const MedicamentModal = ({ isVisible, onClose, onSubmit }) => {
     const [denomination, setDenomination] = useState("");
     const [prixPublic, setPrixPublic] = useState(0);
     const [nombreDeBoites, setNombreDeBoites] = useState(0);
-    const [etat, setEtat] = useState(true);
 
     const queryClient = useQueryClient();
 
@@ -28,28 +27,52 @@ const MedicamentModal = ({ isVisible, onClose, onSubmit }) => {
     const handleFormSubmit = async () => {
         try {
             const values = await form.validateFields();
-            await addMedicamentMutation.mutateAsync(values);
+            
+            const newMedicament = {
+                ...values,
+                etat: true
+            };
+    
+            await addMedicamentMutation.mutateAsync(newMedicament);
             form.resetFields();
             onClose();
             showToastMessage();
-
+    
         } catch (error) {
             console.error('Form validation error:', error);
         }
     };
     
+    
+
     const showToastMessage = () => {
-        toast.success('Medicament added successfully!', {
-            position: toast.POSITION.TOP_CENTER
+        toast.success('Medicament ajouté avec succès', {
+            position: toast.POSITION.TOP_CENTER,
+            transition: Slide,
+            autoClose: 3000,
+            hideProgressBar: true, 
+            closeOnClick: true, 
+            pauseOnHover: true, 
         });
+    };
+    const handleCancel = () => {
+        form.resetFields();
+        onClose();
     };
 
     return (
         <Modal
             title="Ajouter un nouveau médicament"
             visible={isVisible}
-            onCancel={onClose}
+            onCancel={handleCancel}
             onOk={handleFormSubmit}
+            okText="Confirmer" 
+            cancelText="Annuler"
+            okButtonProps={{ 
+                style: { backgroundColor: '#02A676', borderColor: '#02A676' },
+                
+            }}
+           
         >
             <Form form={form} layout="vertical">
                 <Form.Item label="Nom" name="nom" rules={[{ required: true, message: 'Champ obligatoire' }]}>
@@ -98,18 +121,10 @@ const MedicamentModal = ({ isVisible, onClose, onSubmit }) => {
                         onChange={(e) => setNombreDeBoites(e.target.value)}
                     />
                 </Form.Item>
-                <Form.Item label="Etat" name="etat" valuePropName="checked">
-                    <Switch
-                        id="etat"
-                        checked={etat}
-                        onChange={(checked) => setEtat(checked)}
-                    />
-
-                </Form.Item>
             </Form>
 
         </Modal>
     );
 };
 
-export default MedicamentModal;
+export default AddMedicamentModal;

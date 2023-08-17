@@ -1,24 +1,18 @@
-import axios from "axios"
-
-const medicamentsApi = axios.create({
-    baseURL: "http://localhost:3500"
-})
+import api from './apiService'
 
 export const getMedicaments = async () => {
-    const response = await medicamentsApi.get("/medicaments")
+    const response = await api.get("/medicaments")
     return response.data
 }
 
 export const addMedicament = async (medicament) => {
-    return await medicamentsApi.post("/medicaments", medicament)
+    return await api.post("/medicaments", medicament)
 }
 
 export const updateMedicament = async (medicament) => {
-    return await medicamentsApi.patch(`/medicaments/${medicament.id}`, medicament)
+    return await api.patch(`/medicaments/${medicament.id}`, medicament)
 }
 
 export const deleteMedicament = async ({ id }) => {
-    return await medicamentsApi.delete(`/medicaments/${id}`, id)
+    return await api.delete(`/medicaments/${id}`, id)
 }
-
-export default medicamentsApi
