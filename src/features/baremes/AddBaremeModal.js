@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, Switch, DatePicker, Button, Select } from 'antd';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { ToastContainer, toast, Slide } from 'react-toastify';
-import { getCodeActes, getCodeSousActesByCodeActe } from '../../api/baremesApi';
+import { getCodeActes, getCodeSousActesByCodeActe, getCodeTypePrestataires, getNatures } from '../../api/baremesApi';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -13,6 +13,8 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
     const [codeSousActes, setCodeSousActes] = useState([]);
     const [selectedCodeActe, setSelectedCodeActe] = useState(null);
     const [selectedType, setSelectedType] = useState('');
+    const [codeTypePrestataires, setCodeTypePrestataires] = useState([]);
+    const [natures, setNatures] = useState([]);
 
 
     const { Option } = Select;
@@ -77,6 +79,20 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
         setSelectedCodeActe(value);
     };
 
+    useEffect(() => {
+        fetchCodeTypePrestataires();
+        fetchNatures();
+    }, []);
+
+    const fetchCodeTypePrestataires = async () => {
+        const data = await getCodeTypePrestataires();
+        setCodeTypePrestataires(data);
+    };
+
+    const fetchNatures = async () => {
+        const data = await getNatures();
+        setNatures(data);
+    };
 
 
     const showToastMessage = () => {
@@ -114,11 +130,13 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
                         value={selectedCodeActe}>
                         {codeActes.map((codeActe) => (
                             <Option key={codeActe.id} value={codeActe.id}>
-                                {codeActe.libelle} {/* Assuming 'libelle' is the label */}
+                                {codeActe.libelle}
                             </Option>
                         ))}
                     </Select>
                 </Form.Item>
+
+
                 <Form.Item name="code_sous_acte" label="Code Sous Acte" rules={[{ required: true }]}>
                     <Select placeholder="Select a Code Sous Acte" disabled={!selectedCodeActe}>
                         {codeSousActes.map((codeSousActe) => (
@@ -128,20 +146,29 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
                         ))}
                     </Select>
                 </Form.Item>
+
+
                 <Form.Item name="type_bareme" label="Type Barème" rules={[{ required: true }]}>
-                <Select
-                    placeholder="Type barème"
-                    value={selectedType}
-                >
-                    {typeBareme && typeBareme.map((value, index) => (
-                        <Option key={index} value={value}>
-                            {value}
-                        </Option>
-                    ))}
-                </Select>                </Form.Item>
-                <Form.Item name="type_tarif" label="Type Tarif" rules={[{ required: true }]}>
-                    <Input />
+                    <Select
+                        placeholder="Type barème"
+                    >
+                        {typeBareme && typeBareme.map((value, index) => (
+                            <Option key={index} value={value}>
+                                {value}
+                            </Option>
+                        ))}
+                    </Select>
                 </Form.Item>
+
+
+                <Form.Item name="type_tarif" label="Type Tarif" rules={[{ required: true }]}>
+                    <Select placeholder="Select a Type Tarif">
+                        <Option value="P">Forfaitaire</Option>
+                        <Option value="U">Unitaire</Option>
+                    </Select>
+                </Form.Item>
+
+
                 <Form.Item name="type_lette" label="Type Lettre" rules={[{ required: true }]}>
                     <Input />
                 </Form.Item>
@@ -164,10 +191,22 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
                     <Input type="number" />
                 </Form.Item>
                 <Form.Item name="code_type_prestataire" label="Code Type Prestataire" rules={[{ required: true }]}>
-                    <Input />
+                    <Select placeholder="Select a Code Type Prestataire">
+                        {codeTypePrestataires.map((item) => (
+                            <Option key={item.id} value={item.id}>
+                                {item.libelle} 
+                            </Option>
+                        ))}
+                    </Select>
                 </Form.Item>
                 <Form.Item name="nature" label="Nature" rules={[{ required: true }]}>
-                    <Input />
+                    <Select placeholder="Select a Nature">
+                        {natures.map((item) => (
+                            <Option key={item.id} value={item.id}>
+                                {item.libelle}
+                            </Option>
+                        ))}
+                    </Select>
                 </Form.Item>
                 <Form.Item name="date_debut" label="Date Début" rules={[{ required: true }]}>
                     <DatePicker />
