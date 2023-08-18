@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, Switch, DatePicker, Button, Select } from 'antd';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { ToastContainer, toast, Slide } from 'react-toastify';
-import { addBareme, getCodeActes, getCodeSousActesByCodeActe, getCodeTypePrestataires, getNatures } from '../../api/baremesApi';
+import { updateBareme, getCodeActes, getCodeSousActesByCodeActe, getCodeTypePrestataires, getNatures,getCodeActeById, getCodeSousActeById } from '../../api/baremesApi';
 import 'react-toastify/dist/ReactToastify.css';
+import moment from 'moment';
+import 'moment/locale/fr';
 
 
-const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
+const UpdateBaremeModal = ({ isVisible, onClose, onSubmit, initialData }) => {
 
     const [form] = Form.useForm();
     const [codeActes, setCodeActes] = useState([]);
@@ -15,6 +17,9 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
     const [selectedType, setSelectedType] = useState('');
     const [codeTypePrestataires, setCodeTypePrestataires] = useState([]);
     const [natures, setNatures] = useState([]);
+
+    const [codeActeLibelle, setCodeActeLibelle] = useState('');
+    const [codeSousActeLibelle, setCodeSousActeLibelle] = useState('');
 
 
     const { Option } = Select;
@@ -26,6 +31,41 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
         'HP', 'CHUCNOPS', 'HPCNOPS',
         'SECTMUT',
     ];
+    useEffect(() => {
+        if (initialData) {
+            async function fetchLibelleValues() {
+                const codeActeResponse = await getCodeActeById(initialData.code_acte);
+                const codeSousActeResponse = await getCodeSousActeById(
+                    initialData.code_sous_acte
+                );
+    
+                setCodeActeLibelle(codeActeResponse.libelle);
+                setCodeSousActeLibelle(codeSousActeResponse.libelle);
+                setSelectedCodeActe(codeSousActeResponse.libelle)
+    
+                form.setFieldsValue({
+                    code_acte: initialData.code_acte,
+                    code_sous_acte: initialData.code_sous_acte,
+                    type_bareme: initialData.type_bareme,
+                    type_tarif: initialData.type_tarif,
+                    type_lette: initialData.type_lette,
+                    montant: initialData.montant,
+                    taux_remboursement: initialData.taux_remboursement,
+                    taux_remboursement_public: initialData.taux_remboursement_public,
+                    plafond: initialData.plafond,
+                    periode: initialData.periode,
+                    cotation: initialData.cotation,
+                    code_type_prestataire: initialData.code_type_prestataire,
+                    nature: initialData.nature,
+                    date_debut: moment(initialData.date_debut), 
+                    etat: initialData.etat,
+                });
+            }
+    
+            fetchLibelleValues();
+        }
+    }, [isVisible, initialData, form]);
+    
 
 
     useEffect(() => {
@@ -75,45 +115,51 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
         setNatures(data);
     };
 
-
-    const addBaremeMutation = useMutation(addBareme, {
-        onSuccess: () => {
-            queryClient.invalidateQueries('baremes');
-        }
-    });
-
-
     const handleFormSubmit = async () => {
         try {
-            const values = await form.validateFields();
-            
+          const values = await form.validateFields();
+          const updatedBareme = { ...initialData, ...values };
+          
+          if (!areObjectsEqual(updatedBareme, initialData)) {
             const newBareme = {
-                ...values,
-                etat: 0
-            };
-    
-            await addBaremeMutation.mutateAsync(newBareme);
+              ...updatedBareme,
+              etat: initialData.etat
+          };
+            await updateBaremeMutation.mutateAsync(newBareme);
             form.resetFields();
             onClose();
             showToastMessage();
-    
+          } else {
+            onClose(); 
+          }
         } catch (error) {
-            console.error('Form validation error:', error);
+          console.error('Form validation error:', error);
         }
-    };
+      };
+      
+      const areObjectsEqual = (obj1, obj2) => {
+        return JSON.stringify(obj1) === JSON.stringify(obj2);
+      };
+      
+    
+      const updateBaremeMutation = useMutation(updateBareme, {
+        onSuccess: () => {
+          queryClient.invalidateQueries('baremes');
+        }
+      });
     
     
-
-    const showToastMessage = () => {
-        toast.success('Bareme ajouté avec succès', {
-            position: toast.POSITION.TOP_CENTER,
-            transition: Slide,
-            autoClose: 3000,
-            hideProgressBar: true, 
-            closeOnClick: true, 
-            pauseOnHover: true, 
+      const showToastMessage = () => {
+        toast.success('Bareme modifié avec succès', {
+          position: toast.POSITION.TOP_CENTER,
+          transition: Slide,
+          autoClose: 3000,
+          hideProgressBar: true, 
+          closeOnClick: true, 
+          pauseOnHover: true, 
         });
-    };
+      };
+    
     const handleCancel = () => {
         form.resetFields();
         onClose();
@@ -121,7 +167,7 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
 
     return (
         <Modal
-            title="Ajouter un nouveau barème"
+            title="Modifier le barème"
             open={isVisible}
             onCancel={handleCancel}
             onOk={handleFormSubmit}
@@ -133,11 +179,11 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
             }}
 
         >
-            <Form form={form} layout="vertical">
+            <Form form={form} layout="vertical" >
                 <Form.Item name="code_acte" label="Code Acte" rules={[{ required: true }]}>
                     <Select placeholder="Select a Code Acte"
                         onChange={handleCodeActeSelect}
-                        value={selectedCodeActe}>
+                       >
                         {codeActes.map((codeActe) => (
                             <Option key={codeActe.id} value={codeActe.id}>
                                 {codeActe.libelle}
@@ -148,7 +194,7 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
 
 
                 <Form.Item name="code_sous_acte" label="Code Sous Acte" rules={[{ required: true }]}>
-                    <Select placeholder="Select a Code Sous Acte" disabled={!selectedCodeActe}>
+                    <Select placeholder="Select a Code Sous Acte" >
                         {codeSousActes.map((codeSousActe) => (
                             <Option key={codeSousActe.id} value={codeSousActe.id}>
                                 {codeSousActe.libelle}
@@ -204,7 +250,7 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
                     <Select placeholder="Select a Code Type Prestataire">
                         {codeTypePrestataires.map((item) => (
                             <Option key={item.id} value={item.id}>
-                                {item.libelle} 
+                                {item.libelle}
                             </Option>
                         ))}
                     </Select>
@@ -229,4 +275,4 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
     );
 };
 
-export default AddBaremeModal;
+export default UpdateBaremeModal;

@@ -10,6 +10,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getBaremes, searchBaremesByType, getCodeActes, getCodeSousActes, getCodeTypePrestataires, getNatures } from '../../api/baremesApi';
 import AddBaremeModal from './AddBaremeModal';
+import UpdateBaremeModal from './UpdateBaremeModal';
+import DeleteConfirmationModal from './DeleteConfirmationModal';
 
 
 const BaremesMainPage = () => {
@@ -24,8 +26,8 @@ const BaremesMainPage = () => {
 
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     // const [selectedMedicament, setSelectedMedicament] = useState(null);
-    // const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
-    // const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
+    const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
+    const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
     // const [itemsPerPage, setItemsPerPage] = useState(10);
 
     const [selectedCodeActe, setSelectedCodeActe] = useState(null);
@@ -34,6 +36,9 @@ const BaremesMainPage = () => {
 
 
     const [globalSearchText, setGlobalSearchText] = useState('');
+
+    const [selectedBareme, setSelectedBareme] = useState(null);
+
     const searchInput = React.useRef(null);
     const queryClient = useQueryClient();
     const { Option } = Select;
@@ -174,6 +179,35 @@ const BaremesMainPage = () => {
 
     };
 
+    const handleShowUpdateModal = () => {
+        setIsUpdateModalVisible(true);
+    };
+
+    const handleCloseUpdateModal = () => {
+        setIsUpdateModalVisible(false);
+
+    };
+
+    const handleShowDeleteConfirmationModal = () => {
+        setIsConfirmationModalVisible(true);
+    };
+
+    const handleCloseDeleteConfirmationModal = () => {
+        setIsConfirmationModalVisible(false);
+
+    };
+
+    const handleDelete = (record) => {
+        setSelectedBareme(record);
+        handleShowDeleteConfirmationModal();
+    };
+
+
+    const handleEdit = (record) => {
+        setSelectedBareme(record);
+        handleShowUpdateModal();
+    };
+
     const columns = [
         {
             title: 'ID',
@@ -184,17 +218,19 @@ const BaremesMainPage = () => {
             title: 'Code Acte',
             dataIndex: 'code_acte',
             key: 'code_acte',
-            ...getColumnSearchProps('code_acte'),
-            sorter: (a, b) => a.code_acte.localeCompare(b.code_acte),
-            sortOrder: sortColumn === 'code_acte' ? sortOrder : null,
-            sortDirections: ['ascend', 'descend'],
-            render: (text) => renderHighlightedColumn(text),
-
+            render: (codeActeId) => {
+                const codeActe = codeActes.find(acte => acte.id === codeActeId);
+                return codeActe ? codeActe.libelle : '-';
+            },
         },
         {
             title: 'Code Sous Acte',
             dataIndex: 'code_sous_acte',
             key: 'code_sous_acte',
+            render: (codeSousActeId) => {
+                const codeSousActe = codeSousActes.find(acte => acte.id === codeSousActeId);
+                return codeSousActe ? codeSousActe.libelle : '-';
+            },
         },
         {
             title: 'Type Bareme',
@@ -205,7 +241,11 @@ const BaremesMainPage = () => {
             title: 'Type Tarif',
             dataIndex: 'type_tarif',
             key: 'type_tarif',
-        },
+            render: (typeTarif) => (
+              typeTarif === 'P' ? 'Forfaitaire' : (typeTarif === 'U' ? 'Unitaire' : 'Unknown')
+            ),
+          },
+          
         {
             title: 'Type Lette',
             dataIndex: 'type_lette',
@@ -245,21 +285,64 @@ const BaremesMainPage = () => {
             title: 'Code Type Prestataire',
             dataIndex: 'code_type_prestataire',
             key: 'code_type_prestataire',
+            render: (codeTypePrestataireId) => {
+                const codeTypePrestataire = codeTypePrestataires.find(acte => acte.id === codeTypePrestataireId);
+                return codeTypePrestataire ? codeTypePrestataire.libelle : '-';
+            },
         },
         {
             title: 'Nature',
             dataIndex: 'nature',
             key: 'nature',
+            render: (natureId) => {
+                const nature = natures.find(nature => nature.id === natureId);
+                return nature ? nature.libelle : '-';
+            },
         },
         {
             title: 'Date Debut',
             dataIndex: 'date_debut',
             key: 'date_debut',
         },
+       
+
         {
-            title: 'Etat',
-            dataIndex: 'etat',
-            key: 'etat',
+            title: 'Actions',
+            dataIndex: 'actions',
+            key: 'actions',
+            render: (_, record) => (
+                <Space size="small">
+                    <Button
+                        style={{
+                            backgroundColor: record.etat==0 ? '#80BFB4' : 'lightgray',
+                            borderColor: record.etat==0 ? '#80BFB4' : 'lightgray',
+                            color: record.etat==0 ? 'white' : 'darkgray',
+                            cursor: record.etat==0 ? 'pointer' : 'not-allowed',
+                        }}
+                        onClick={() => handleEdit(record)}
+                        disabled={record.etat==1}
+                    >
+                        <EditOutlined /> Modifier
+                    </Button>
+                    <Button
+                        style={{
+                            backgroundColor: record.etat==0 ? '#36594C' : 'lightgray',
+                            borderColor: record.etat==0? '#36594C' : 'lightgray',
+                            color: record.etat==0 ? 'white' : 'darkgray',
+                            cursor: record.etat==0 ? 'pointer' : 'not-allowed',
+                        }}
+                        onClick={() => handleDelete(record)}
+                        disabled={record.etat==1}
+                    >
+                        <DeleteOutlined /> Supprimer
+                    </Button>
+                   
+
+                </Space>
+
+
+
+            ),
         },
 
 
@@ -327,6 +410,19 @@ const BaremesMainPage = () => {
              onClose={handleCloseAddModal}
              onCancel={handleCloseAddModal}
             ></AddBaremeModal>
+            <UpdateBaremeModal
+             isVisible={isUpdateModalVisible}
+             onClose={handleCloseUpdateModal}
+             onCancel={handleCloseUpdateModal}
+             initialData={selectedBareme}
+            ></UpdateBaremeModal>
+
+            <DeleteConfirmationModal
+             isVisible={isConfirmationModalVisible}
+             onClose={handleCloseDeleteConfirmationModal}
+             onCancel={handleCloseDeleteConfirmationModal}
+             bareme={selectedBareme}
+            ></DeleteConfirmationModal>
 
 
         </div>

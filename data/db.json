@@ -192,9 +192,9 @@
   "baremes": [
     {
       "id": 1,
-      "code_acte": 1,
-      "code_sous_acte": 1,
-      "type_bareme": "CNOPS",
+      "code_acte": 2,
+      "code_sous_acte": 2,
+      "type_bareme": "AMO",
       "type_tarif": "P",
       "type_lette": "A",
       "montant": 100,
@@ -205,8 +205,8 @@
       "cotation": 10,
       "code_type_prestataire": 1,
       "nature": 1,
-      "date_debut": "2023-01-01",
-      "etat": 0
+      "date_debut": "2022-12-31T23:00:00.000Z",
+      "etat": 1
     },
     {
       "id": 2,
@@ -231,7 +231,7 @@
       "code_acte": 3,
       "code_sous_acte": 3,
       "type_bareme": "AMO",
-      "type_tarif": "R",
+      "type_tarif": "U",
       "type_lette": "B",
       "montant": 200,
       "taux_remboursement": 90,
@@ -267,7 +267,7 @@
       "code_acte": 5,
       "code_sous_acte": 5,
       "type_bareme": "WAFA1",
-      "type_tarif": "P",
+      "type_tarif": "U",
       "type_lette": "D",
       "montant": 180,
       "taux_remboursement": 85,
@@ -285,7 +285,7 @@
       "code_acte": 6,
       "code_sous_acte": 6,
       "type_bareme": "HP0",
-      "type_tarif": "R",
+      "type_tarif": "U",
       "type_lette": "E",
       "montant": 220,
       "taux_remboursement": 95,
@@ -321,7 +321,7 @@
       "code_acte": 8,
       "code_sous_acte": 8,
       "type_bareme": "HP",
-      "type_tarif": "R",
+      "type_tarif": "U",
       "type_lette": "G",
       "montant": 240,
       "taux_remboursement": 88,
@@ -336,10 +336,10 @@
     },
     {
       "id": 9,
-      "code_acte": 9,
-      "code_sous_acte": 9,
+      "code_acte": 1,
+      "code_sous_acte": 1,
       "type_bareme": "CHUCNOPS",
-      "type_tarif": "P",
+      "type_tarif": "U",
       "type_lette": "H",
       "montant": 130,
       "taux_remboursement": 73,
@@ -354,10 +354,10 @@
     },
     {
       "id": 10,
-      "code_acte": 10,
-      "code_sous_acte": 10,
+      "code_acte": 1,
+      "code_sous_acte": 1,
       "type_bareme": "HPCNOPS",
-      "type_tarif": "R",
+      "type_tarif": "U",
       "type_lette": "I",
       "montant": 260,
       "taux_remboursement": 98,
@@ -372,8 +372,8 @@
     },
     {
       "id": 11,
-      "code_acte": 11,
-      "code_sous_acte": 11,
+      "code_acte": 1,
+      "code_sous_acte": 1,
       "type_bareme": "SECTMUT",
       "type_tarif": "P",
       "type_lette": "J",
@@ -387,12 +387,148 @@
       "nature": 11,
       "date_debut": "2023-11-01",
       "etat": 0
+    },
+    {
+      "code_acte": 1,
+      "code_sous_acte": 1,
+      "type_bareme": "HP0",
+      "type_tarif": "P",
+      "type_lette": "QZ",
+      "montant": "12",
+      "taux_remboursement": "12",
+      "taux_remboursement_public": "12",
+      "plafond": "12",
+      "periode": "12",
+      "cotation": "12",
+      "code_type_prestataire": 1,
+      "nature": 1,
+      "date_debut": "2023-08-18T09:33:04.499Z",
+      "etat": 0,
+      "id": 12
+    },
+    {
+      "code_acte": 2,
+      "code_sous_acte": "Code Sous Acte 1",
+      "type_bareme": "SECTMUT",
+      "type_tarif": "P",
+      "type_lette": "J",
+      "montant": 110,
+      "taux_remboursement": 65,
+      "taux_remboursement_public": 55,
+      "plafond": 470,
+      "periode": 16,
+      "cotation": 8,
+      "code_type_prestataire": 11,
+      "nature": 11,
+      "date_debut": "2023-10-31T23:00:00.000Z",
+      "etat": 0,
+      "id": 13
+    },
+    {
+      "code_acte": 2,
+      "code_sous_acte": "Code Sous Acte 1",
+      "type_bareme": "SECTMUT",
+      "type_tarif": "P",
+      "type_lette": "J",
+      "montant": 110,
+      "taux_remboursement": 65,
+      "taux_remboursement_public": 55,
+      "plafond": 470,
+      "periode": 16,
+      "cotation": 8,
+      "code_type_prestataire": 11,
+      "nature": 11,
+      "date_debut": "2023-10-31T23:00:00.000Z",
+      "etat": 0,
+      "id": 14
+    },
+    {
+      "code_acte": 4,
+      "code_sous_acte": "Code Sous Acte 1",
+      "type_bareme": "SECTMUT",
+      "type_tarif": "P",
+      "type_lette": "J",
+      "montant": 110,
+      "taux_remboursement": 65,
+      "taux_remboursement_public": 55,
+      "plafond": 470,
+      "periode": 16,
+      "cotation": 8,
+      "code_type_prestataire": 11,
+      "nature": 11,
+      "date_debut": "2023-10-31T23:00:00.000Z",
+      "etat": 0,
+      "id": 15
+    },
+    {
+      "code_acte": 3,
+      "code_sous_acte": 3,
+      "type_bareme": "SECTMUT",
+      "type_tarif": "P",
+      "type_lette": "J",
+      "montant": 110,
+      "taux_remboursement": 65,
+      "taux_remboursement_public": 55,
+      "plafond": 470,
+      "periode": 16,
+      "cotation": 8,
+      "code_type_prestataire": 11,
+      "nature": 11,
+      "date_debut": "2023-10-31T23:00:00.000Z",
+      "etat": 0,
+      "id": 16
+    },
+    {
+      "code_acte": 3,
+      "code_sous_acte": 3,
+      "type_bareme": "AMO",
+      "type_tarif": "U",
+      "type_lette": "B",
+      "montant": 200,
+      "taux_remboursement": 90,
+      "taux_remboursement_public": 80,
+      "plafond": 700,
+      "periode": 30,
+      "cotation": 15,
+      "code_type_prestataire": 3,
+      "nature": 3,
+      "date_debut": "2023-02-28T23:00:00.000Z",
+      "etat": 0,
+      "id": 17
     }
   ],
   "code_actes": [
     {
       "id": 1,
       "libelle": "Code Acte 1"
+    },
+    {
+      "id": 2,
+      "libelle": "Code Acte 2"
+    },
+    {
+      "id": 3,
+      "libelle": "Code Acte 3"
+    },
+    {
+      "id": 4,
+      "libelle": "Code Acte 4"
+    },
+    {
+      "id": 5,
+      "libelle": "Code Acte 5"
+    },
+    {
+      "id": 6,
+      "libelle": "Code Acte 6"
+    },
+    {
+      "id": 7,
+      "libelle": "Code Acte 7"
+    },
+    {
+      "id": 8,
+      "libelle": "Code Acte 8"
     }
   ],
   "code_sous_actes": [
@@ -400,18 +536,109 @@
       "id": 1,
       "code_acte": 1,
       "libelle": "Code Sous Acte 1"
+    },
+    {
+      "id": 2,
+      "code_acte": 2,
+      "libelle": "Code Sous Acte 2"
+    },
+    {
+      "id": 3,
+      "code_acte": 3,
+      "libelle": "Code Sous Acte 3"
+    },
+    {
+      "id": 4,
+      "code_acte": 4,
+      "libelle": "Code Sous Acte 4"
+    },
+    {
+      "id": 5,
+      "code_acte": 5,
+      "libelle": "Code Sous Acte 5"
+    },
+    {
+      "id": 6,
+      "code_acte": 6,
+      "libelle": "Code Sous Acte 6"
+    },
+    {
+      "id": 7,
+      "code_acte": 7,
+      "libelle": "Code Sous Acte 7"
+    },
+    {
+      "id": 8,
+      "code_acte": 8,
+      "libelle": "Code Sous Acte 8"
     }
   ],
   "type_prestataires": [
     {
       "id": 1,
       "libelle": "Type Prestataire 1"
+    },
+    {
+      "id": 2,
+      "libelle": "Type Prestataire 2"
+    },
+    {
+      "id": 3,
+      "libelle": "Type Prestataire 3"
+    },
+    {
+      "id": 4,
+      "libelle": "Type Prestataire 4"
+    },
+    {
+      "id": 5,
+      "libelle": "Type Prestataire 5"
+    },
+    {
+      "id": 6,
+      "libelle": "Type Prestataire 6"
+    },
+    {
+      "id": 7,
+      "libelle": "Type Prestataire 7"
+    },
+    {
+      "id": 8,
+      "libelle": "Type Prestataire 8"
     }
   ],
   "natures": [
     {
       "id": 1,
       "libelle": "Nature 1"
+    },
+    {
+      "id": 2,
+      "libelle": "Nature 2"
+    },
+    {
+      "id": 3,
+      "libelle": "Nature 3"
+    },
+    {
+      "id": 4,
+      "libelle": "Nature 4"
+    },
+    {
+      "id": 5,
+      "libelle": "Nature 5"
+    },
+    {
+      "id": 6,
+      "libelle": "Nature 6"
+    },
+    {
+      "id": 7,
+      "libelle": "Nature 7"
+    },
+    {
+      "id": 8,
+      "libelle": "Nature 8"
     }
   ]
 }

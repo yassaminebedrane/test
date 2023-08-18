@@ -72,7 +72,7 @@ const UpdateMedicamentModal = ({ isVisible, onClose, onSubmit, initialData }) =>
   return (
     <Modal
       title="Modifier le médicament"
-      visible={isVisible}
+      open={isVisible}
       onCancel={onClose}
       onOk={handleFormSubmit}
       okText="Confirmer"
@@ -82,7 +82,7 @@ const UpdateMedicamentModal = ({ isVisible, onClose, onSubmit, initialData }) =>
 
       }}
     >
-      <Form form={form} layout="vertical">
+      <Form form={form} layout="vertical" >
         <Form.Item label="Nom" name="nom" rules={[{ required: true, message: 'Champ obligatoire' }]}>
           <Input />
         </Form.Item>
