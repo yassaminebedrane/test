@@ -20,6 +20,8 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
     const { Option } = Select;
 
     const queryClient = useQueryClient();
+
+   
     const typeBareme = [
         'FMSAR', 'AMO', 'CNOPS', 'WAFA1',
         'HP0', 'CHU',
@@ -134,6 +136,18 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
 
         >
             <Form form={form} layout="vertical">
+            <Form.Item name="type_bareme" label="Type Barème" rules={[{ required: true }]}>
+                    <Select
+                        placeholder="Type barème"
+                    >
+                        {typeBareme && typeBareme.map((value, index) => (
+                            <Option key={index} value={value}>
+                                {value}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+                
                 <Form.Item name="code_acte" label="Code Acte" rules={[{ required: true }]}>
                     <Select placeholder="Select a Code Acte"
                         onChange={handleCodeActeSelect}
@@ -158,17 +172,7 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
                 </Form.Item>
 
 
-                <Form.Item name="type_bareme" label="Type Barème" rules={[{ required: true }]}>
-                    <Select
-                        placeholder="Type barème"
-                    >
-                        {typeBareme && typeBareme.map((value, index) => (
-                            <Option key={index} value={value}>
-                                {value}
-                            </Option>
-                        ))}
-                    </Select>
-                </Form.Item>
+               
 
 
                 <Form.Item name="type_tarif" label="Type Tarif" rules={[{ required: true }]}>

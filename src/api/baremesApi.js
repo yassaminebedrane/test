@@ -65,3 +65,26 @@ export const addBareme = async (bareme) => {
 export const updateBareme = async (bareme) => {
     return await api.patch(`/baremes/${bareme.id}`, bareme)
 }
+
+
+export const filterBaremes = async (type, codeActe) => {
+    try {
+        let query = `/baremes`;
+
+        if (type !== null && codeActe !== null) {
+            query += `?type_bareme=${type}&code_acte=${codeActe}`;
+        } else if (type !== null) {
+            query += `?type_bareme=${type}`;
+        } else if (codeActe !== null) {
+            query += `?code_acte=${codeActe}`;}
+        // else {
+        //     return [];
+        // }
+
+        const response = await api.get(query);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+

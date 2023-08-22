@@ -206,7 +206,7 @@
       "code_type_prestataire": 1,
       "nature": 1,
       "date_debut": "2022-12-31T23:00:00.000Z",
-      "etat": 1
+      "etat": 0
     },
     {
       "id": 2,
@@ -230,7 +230,7 @@
       "id": 3,
       "code_acte": 3,
       "code_sous_acte": 3,
-      "type_bareme": "AMO",
+      "type_bareme": "CHU",
       "type_tarif": "U",
       "type_lette": "B",
       "montant": 200,
@@ -241,14 +241,14 @@
       "cotation": 15,
       "code_type_prestataire": 3,
       "nature": 3,
-      "date_debut": "2023-03-01",
-      "etat": 0
+      "date_debut": "2023-02-28T23:00:00.000Z",
+      "etat": 1
     },
     {
       "id": 4,
       "code_acte": 4,
       "code_sous_acte": 4,
-      "type_bareme": "CNOPS",
+      "type_bareme": "WAFA1",
       "type_tarif": "P",
       "type_lette": "C",
       "montant": 120,
@@ -259,7 +259,7 @@
       "cotation": 9,
       "code_type_prestataire": 4,
       "nature": 4,
-      "date_debut": "2023-04-01",
+      "date_debut": "2023-04-01T00:00:00.000Z",
       "etat": 0
     },
     {
@@ -495,6 +495,78 @@
       "date_debut": "2023-02-28T23:00:00.000Z",
       "etat": 0,
       "id": 17
+    },
+    {
+      "code_acte": 1,
+      "code_sous_acte": 1,
+      "type_bareme": "CNOPS",
+      "type_tarif": "P",
+      "type_lette": "new",
+      "montant": "1",
+      "taux_remboursement": "1",
+      "taux_remboursement_public": "1",
+      "plafond": "1",
+      "periode": "1",
+      "cotation": "1",
+      "code_type_prestataire": 6,
+      "nature": 7,
+      "date_debut": "2023-08-22T08:54:52.344Z",
+      "etat": 0,
+      "id": 18
+    },
+    {
+      "code_acte": 1,
+      "code_sous_acte": 1,
+      "type_bareme": "AMO",
+      "type_tarif": "P",
+      "type_lette": "12",
+      "montant": "12",
+      "taux_remboursement": "11",
+      "taux_remboursement_public": "12",
+      "plafond": "12",
+      "periode": "12",
+      "cotation": "11",
+      "code_type_prestataire": 1,
+      "nature": 6,
+      "date_debut": "2023-08-22T10:29:16.493Z",
+      "etat": 0,
+      "id": 19
+    },
+    {
+      "code_acte": 1,
+      "code_sous_acte": 1,
+      "type_bareme": "HP0",
+      "type_tarif": "P",
+      "type_lette": "DEG",
+      "montant": "12",
+      "taux_remboursement": "12",
+      "taux_remboursement_public": "12",
+      "plafond": "12",
+      "periode": "10",
+      "cotation": "12",
+      "code_type_prestataire": 2,
+      "nature": 6,
+      "date_debut": "2023-08-23T13:55:24.304Z",
+      "etat": 0,
+      "id": 20
+    },
+    {
+      "code_acte": 2,
+      "code_sous_acte": 2,
+      "type_bareme": "CNOPS",
+      "type_tarif": "P",
+      "type_lette": "HG",
+      "montant": "12",
+      "taux_remboursement": "23",
+      "taux_remboursement_public": "76",
+      "plafond": "9",
+      "periode": "87",
+      "cotation": "87",
+      "code_type_prestataire": 4,
+      "nature": 4,
+      "date_debut": "2023-08-22T14:07:37.950Z",
+      "etat": 1,
+      "id": 21
     }
   ],
   "code_actes": [
