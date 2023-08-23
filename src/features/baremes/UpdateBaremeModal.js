@@ -14,36 +14,28 @@ const UpdateBaremeModal = ({ isVisible, onClose, onSubmit, initialData }) => {
     const [codeActes, setCodeActes] = useState([]);
     const [codeSousActes, setCodeSousActes] = useState([]);
     const [selectedCodeActe, setSelectedCodeActe] = useState(null);
-    const [selectedType, setSelectedType] = useState('');
+    const [selectedCodeSousActe, setSelectedCodeSousActe] = useState(null);
     const [codeTypePrestataires, setCodeTypePrestataires] = useState([]);
     const [natures, setNatures] = useState([]);
-
-    const [selectedCodeSousActe, setSelectedCodeSousActe] = useState(null);
-
-    const [codeActeLibelle, setCodeActeLibelle] = useState('');
-    const [codeSousActeLibelle, setCodeSousActeLibelle] = useState('');
 
 
     const { Option } = Select;
 
     const queryClient = useQueryClient();
+
+
     const typeBareme = [
         'FMSAR', 'AMO', 'CNOPS', 'WAFA1',
         'HP0', 'CHU',
         'HP', 'CHUCNOPS', 'HPCNOPS',
         'SECTMUT',
     ];
+
+
     useEffect(() => {
         if (initialData) {
-            async function fetchLibelleValues() {
-                const codeActeResponse = await getCodeActeById(initialData.code_acte);
-                // const codeSousActeResponse = await getCodeSousActeById(
-                //     initialData.code_sous_acte
-                // );
-
-                // setCodeActeLibelle(codeActeResponse.libelle);
-                // setCodeSousActeLibelle(codeSousActeResponse.libelle);
-                // setSelectedCodeActe(codeSousActeResponse.libelle)
+            async function fetchLibelleValues() {               
+                setSelectedCodeActe(initialData.code_acte)
 
                 form.setFieldsValue({
                     code_acte: initialData.code_acte,
@@ -99,16 +91,12 @@ const UpdateBaremeModal = ({ isVisible, onClose, onSubmit, initialData }) => {
     }, [selectedCodeActe]);
 
     const handleCodeActeSelect = (value) => {
-        console.log(value)
-        console.log(selectedCodeSousActe)
         setSelectedCodeActe(value);
-        console.log(selectedCodeActe)
-
-        setSelectedCodeSousActe(null);
-        console.log(selectedCodeSousActe)
-
+        setTimeout(() => {
+            setSelectedCodeSousActe(null);
+        }, 0); 
     };
-
+    
     useEffect(() => {
         fetchCodeTypePrestataires();
         fetchNatures();
@@ -219,6 +207,7 @@ const UpdateBaremeModal = ({ isVisible, onClose, onSubmit, initialData }) => {
                 <Form.Item name="code_sous_acte" label="Code Sous Acte" rules={[{ required: true }]}>
                     <Select
                         placeholder="Select a Code Sous Acte"
+                        value={selectedCodeSousActe}
                     >
                         {codeSousActes.map((codeSousActe) => (
                             <Option key={codeSousActe.id} value={codeSousActe.id}>
@@ -262,7 +251,7 @@ const UpdateBaremeModal = ({ isVisible, onClose, onSubmit, initialData }) => {
                 <Form.Item name="cotation" label="Cotation" rules={[{ required: true }]}>
                     <Input type="number" />
                 </Form.Item>
-                
+
                 <Form.Item name="code_type_prestataire" label="Code Type Prestataire" rules={[{ required: true }]}>
                     <Select placeholder="Select a Code Type Prestataire">
                         {codeTypePrestataires.map((item) => (

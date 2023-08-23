@@ -184,15 +184,18 @@ const BaremesMainPage = () => {
 
     const handleCloseAddModal = () => {
         setIsAddModalVisible(false);
+        queryClient.invalidateQueries('baremes');
 
     };
 
     const handleShowUpdateModal = () => {
         setIsUpdateModalVisible(true);
+        
     };
 
     const handleCloseUpdateModal = () => {
         setIsUpdateModalVisible(false);
+        queryClient.invalidateQueries('baremes');
 
     };
 
@@ -202,6 +205,7 @@ const BaremesMainPage = () => {
 
     const handleCloseDeleteConfirmationModal = () => {
         setIsConfirmationModalVisible(false);
+        queryClient.invalidateQueries('baremes');
 
     };
 
@@ -262,6 +266,7 @@ const BaremesMainPage = () => {
         try {
             await updateBaremeMutation.mutateAsync(updatedBareme);
             console.log('Bareme réactivé avec succès');
+            queryClient.invalidateQueries('baremes');
         } catch (error) {
             console.error('Error reactivating bareme:', error);
         }
