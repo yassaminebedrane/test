@@ -12,6 +12,8 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
     const [codeActes, setCodeActes] = useState([]);
     const [codeSousActes, setCodeSousActes] = useState([]);
     const [selectedCodeActe, setSelectedCodeActe] = useState(null);
+    const [selectedCodeSousActe, setSelectedCodeSousActe] = useState(null);
+
     const [selectedType, setSelectedType] = useState('');
     const [codeTypePrestataires, setCodeTypePrestataires] = useState([]);
     const [natures, setNatures] = useState([]);
@@ -60,6 +62,7 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
 
     const handleCodeActeSelect = (value) => {
         setSelectedCodeActe(value);
+        setSelectedCodeSousActe(null);
     };
 
     useEffect(() => {
@@ -162,7 +165,8 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
 
 
                 <Form.Item name="code_sous_acte" label="Code Sous Acte" rules={[{ required: true }]}>
-                    <Select placeholder="Select a Code Sous Acte" disabled={!selectedCodeActe}>
+                    <Select placeholder="Select a Code Sous Acte" disabled={!selectedCodeActe}
+                    value={selectedCodeSousActe}>
                         {codeSousActes.map((codeSousActe) => (
                             <Option key={codeSousActe.id} value={codeSousActe.id}>
                                 {codeSousActe.libelle}

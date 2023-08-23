@@ -77,9 +77,9 @@ export const filterBaremes = async (type, codeActe) => {
             query += `?type_bareme=${type}`;
         } else if (codeActe !== null) {
             query += `?code_acte=${codeActe}`;}
-        // else {
-        //     return [];
-        // }
+        else {
+            return [];
+        }
 
         const response = await api.get(query);
         return response.data;

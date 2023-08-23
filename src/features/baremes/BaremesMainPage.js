@@ -8,7 +8,7 @@ import { EditOutlined, DeleteOutlined, PlusCircleOutlined } from '@ant-design/ic
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getBaremes, searchBaremesByType, getCodeActes, getCodeSousActes, getCodeTypePrestataires, getNatures, filterBaremes,updateBareme } from '../../api/baremesApi';
+import { getBaremes, searchBaremesByType, getCodeActes, getCodeSousActes, getCodeTypePrestataires, getNatures, filterBaremes, updateBareme } from '../../api/baremesApi';
 import AddBaremeModal from './AddBaremeModal';
 import UpdateBaremeModal from './UpdateBaremeModal';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
@@ -16,7 +16,6 @@ import DeleteConfirmationModal from './DeleteConfirmationModal';
 
 const BaremesMainPage = () => {
 
-    const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [sortOrder, setSortOrder] = useState('');
     const [sortColumn, setSortColumn] = useState('');
@@ -32,6 +31,15 @@ const BaremesMainPage = () => {
     const [selectedCodeActe, setSelectedCodeActe] = useState(null);
     const [selectedCodeSousActe, setSelectedCodeSousActe] = useState(null);
     const [codeSousActeOptions, setCodeSousActeOptions] = useState([]);
+
+    const [rawData, setRawData] = useState([]);
+
+    // State for displayed data after filtering
+    const [displayedData, setDisplayedData] = useState([]);
+  
+    // State for the search text
+    const [searchText, setSearchText] = useState('');
+  
 
 
     const [globalSearchText, setGlobalSearchText] = useState('');
@@ -127,32 +135,6 @@ const BaremesMainPage = () => {
     };
 
 
-    const filteredBaremes = globalSearchText
-        ? baremes.filter((bareme) =>
-            Object.values(bareme).some((value) =>
-                value.toString().toLowerCase().includes(globalSearchText.toLowerCase())
-            )
-        )
-        : baremes;
-
-    const handleGlobalSearch = (e) => {
-        setGlobalSearchText(e.target.value);
-    };
-
-
-    const renderHighlightedColumn = (text) => {
-        if (globalSearchText) {
-            return (
-                <Highlighter
-                    highlightStyle={{ backgroundColor: 'rgba(2, 166, 118, 0.6)', color: 'white', padding: 0 }}
-                    searchWords={[globalSearchText]}
-                    autoEscape
-                    textToHighlight={text.toString()}
-                />
-            );
-        }
-        return text;
-    };
 
 
     const handleTypeSelect = async (value) => {
@@ -164,6 +146,8 @@ const BaremesMainPage = () => {
         setSelectedCodeActe(value);
     };
 
+    
+
     // useEffect(() => {
     //     const fetchFilteredBaremes = async () => {
     //         try {
@@ -174,7 +158,7 @@ const BaremesMainPage = () => {
     //             console.error('Error fetching filtered baremes:', error);
     //         }
     //     };
-        
+
 
     //     fetchFilteredBaremes();
     // }, [selectedType, selectedCodeActe]);
@@ -183,16 +167,16 @@ const BaremesMainPage = () => {
         ['filteredBaremes', selectedType, selectedCodeActe, globalSearchText],
         () => filterBaremes(selectedType, selectedCodeActe, globalSearchText),
         {
-          enabled: selectedType !== null || selectedCodeActe !== null || globalSearchText !== null,
-          refetchOnWindowFocus: false, // Customize refetching behavior as needed
+            enabled: selectedType !== null || selectedCodeActe !== null || globalSearchText !== null,
+            refetchOnWindowFocus: false, // Customize refetching behavior as needed
         }
-      );
-      
-      useEffect(() => {
+    );
+
+    useEffect(() => {
         if (filteredData) {
-          setBaremesData(filteredData);
+            setBaremesData(filteredData);
         }
-      }, [filteredData]);
+    }, [filteredData]);
 
     const handleShowAddModal = () => {
         setIsAddModalVisible(true);
@@ -232,7 +216,7 @@ const BaremesMainPage = () => {
         handleShowUpdateModal();
     };
 
-    const handleResetSelect=()=>{
+    const handleResetSelect = () => {
         setSelectedType(null);
         setSelectedCodeActe(null);
 
@@ -243,6 +227,35 @@ const BaremesMainPage = () => {
             queryClient.invalidateQueries('baremes');
         }
     });
+
+
+    const filteredBaremes = filteredData
+        ? filteredData.filter((bareme) =>
+            Object.values(bareme).some((value) =>
+                value.toString().toLowerCase().includes(globalSearchText.toLowerCase())
+            )
+        )
+        : filteredData;
+
+
+    const handleGlobalSearch = (e) => {
+        setGlobalSearchText(e.target.value);
+    };
+
+
+    const renderHighlightedColumn = (text) => {
+        if (globalSearchText) {
+            return (
+                <Highlighter
+                    highlightStyle={{ backgroundColor: 'rgba(2, 166, 118, 0.6)', color: 'white', padding: 0 }}
+                    searchWords={[globalSearchText]}
+                    autoEscape
+                    textToHighlight={text.toString()}
+                />
+            );
+        }
+        return text;
+    };
 
     const handleReactivate = async (record) => {
         const updatedBareme = { ...record, etat: 0 };
@@ -384,7 +397,7 @@ const BaremesMainPage = () => {
                     >
                         <DeleteOutlined /> Supprimer
                     </Button>
-                    {record.etat == 1 &&(
+                    {record.etat == 1 && (
                         <Button
                             style={{
                                 backgroundColor: 'rgba(2, 166, 118, 0.6)',
@@ -423,11 +436,11 @@ const BaremesMainPage = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
 
 
-                <Button style={{ backgroundColor: '#588C7E', color: 'white' }} onClick={handleShowAddModal} >
+                <Button style={{ backgroundColor: '#588C7E', color: 'white', marginRight: '10px' }} onClick={handleShowAddModal} >
                     <PlusCircleOutlined /> Ajouter un barème
                 </Button>
                 <Select
-                    style={{ width: 400 }}
+                    style={{ width: 400, marginRight: '10px' }}
                     placeholder="Type barème"
                     value={selectedType}
                     onChange={handleTypeSelect}
@@ -439,7 +452,7 @@ const BaremesMainPage = () => {
                     ))}
                 </Select>
 
-                <Select style={{ width: 400 }} placeholder="Code Acte"
+                <Select style={{ width: 400, marginRight: '10px' }} placeholder="Code Acte"
                     value={selectedCodeActe}
                     onChange={handleCodeActeSelect}>
                     {codeActes && codeActes.map((value) => (
@@ -448,22 +461,23 @@ const BaremesMainPage = () => {
                         </Option>
                     ))}
                 </Select>
-                <Button style={{ backgroundColor: '#588C7E', color: 'white' }} 
-                onClick={handleResetSelect} >Reinitialiser</Button>
+                <Button style={{ backgroundColor: '#588C7E', color: 'white', marginRight: '10px' }}
+                    onClick={handleResetSelect} >Reinitialiser</Button>
                 <Input
                     placeholder="Recherche"
                     value={globalSearchText}
                     onChange={handleGlobalSearch}
                     prefix={<SearchOutlined />}
-                    style={{ marginLeft: 10 }}
+                    style={{ marginLeft: '10px' }}
                 />
-               
+
+
             </div>
             <div>
                 <Table
                     bordered
                     rowClassName={() => "rowClassName1"}
-                    dataSource={baremesData}
+                    dataSource={filteredBaremes}
                     columns={columns}
                     loading={isLoading}
                     rowKey="id"

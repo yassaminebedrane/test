@@ -47,7 +47,7 @@ const UpdateBaremeModal = ({ isVisible, onClose, onSubmit, initialData }) => {
 
                 form.setFieldsValue({
                     code_acte: initialData.code_acte,
-                    // code_sous_acte: initialData.code_sous_acte,
+                    code_sous_acte: initialData.code_sous_acte,
                     type_bareme: initialData.type_bareme,
                     type_tarif: initialData.type_tarif,
                     type_lette: initialData.type_lette,
@@ -100,8 +100,13 @@ const UpdateBaremeModal = ({ isVisible, onClose, onSubmit, initialData }) => {
 
     const handleCodeActeSelect = (value) => {
         console.log(value)
+        console.log(selectedCodeSousActe)
         setSelectedCodeActe(value);
+        console.log(selectedCodeActe)
+
         setSelectedCodeSousActe(null);
+        console.log(selectedCodeSousActe)
+
     };
 
     useEffect(() => {
@@ -202,7 +207,6 @@ const UpdateBaremeModal = ({ isVisible, onClose, onSubmit, initialData }) => {
                     <Select
                         placeholder="Select a Code Acte"
                         onChange={handleCodeActeSelect}
-                        value={selectedCodeActe}
                     >
                         {codeActes.map((codeActe) => (
                             <Option key={codeActe.id} value={codeActe.id}>
@@ -215,8 +219,6 @@ const UpdateBaremeModal = ({ isVisible, onClose, onSubmit, initialData }) => {
                 <Form.Item name="code_sous_acte" label="Code Sous Acte" rules={[{ required: true }]}>
                     <Select
                         placeholder="Select a Code Sous Acte"
-                        value={selectedCodeSousActe}
-                        onChange={(value) => setSelectedCodeSousActe(value)}
                     >
                         {codeSousActes.map((codeSousActe) => (
                             <Option key={codeSousActe.id} value={codeSousActe.id}>
@@ -226,59 +228,65 @@ const UpdateBaremeModal = ({ isVisible, onClose, onSubmit, initialData }) => {
                     </Select>
                 </Form.Item>
 
-            <Form.Item name="type_tarif" label="Type Tarif" rules={[{ required: true }]}>
-                <Select placeholder="Select a Type Tarif">
-                    <Option value="P">Forfaitaire</Option>
-                    <Option value="U">Unitaire</Option>
-                </Select>
-            </Form.Item>
+                <Form.Item name="type_tarif" label="Type Tarif" rules={[{ required: true }]}>
+                    <Select placeholder="Select a Type Tarif">
+                        <Option value="P">Forfaitaire</Option>
+                        <Option value="U">Unitaire</Option>
+                    </Select>
+                </Form.Item>
+
+                <Form.Item name="type_lette" label="Type Lettre" rules={[{ required: true }]}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item name="montant" label="Montant" rules={[{ required: true }]}>
+                    <Input type="number" />
+                </Form.Item>
+
+                <Form.Item name="taux_remboursement" label="Taux Remboursement" rules={[{ required: true }]}>
+                    <Input type="number" />
+                </Form.Item>
+
+                <Form.Item name="taux_remboursement_public" label="Taux Remboursement Public" rules={[{ required: true }]}>
+                    <Input type="number" />
+                </Form.Item>
+
+                <Form.Item name="plafond" label="Plafond" rules={[{ required: true }]}>
+                    <Input type="number" />
+                </Form.Item>
+
+                <Form.Item name="periode" label="Période" rules={[{ required: true }]}>
+                    <Input type="number" />
+                </Form.Item>
+
+                <Form.Item name="cotation" label="Cotation" rules={[{ required: true }]}>
+                    <Input type="number" />
+                </Form.Item>
+                
+                <Form.Item name="code_type_prestataire" label="Code Type Prestataire" rules={[{ required: true }]}>
+                    <Select placeholder="Select a Code Type Prestataire">
+                        {codeTypePrestataires.map((item) => (
+                            <Option key={item.id} value={item.id}>
+                                {item.libelle}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+                <Form.Item name="nature" label="Nature" rules={[{ required: true }]}>
+                    <Select placeholder="Select a Nature">
+                        {natures.map((item) => (
+                            <Option key={item.id} value={item.id}>
+                                {item.libelle}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+                <Form.Item name="date_debut" label="Date Début" rules={[{ required: true }]}>
+                    <DatePicker />
+                </Form.Item>
 
 
-            <Form.Item name="type_lette" label="Type Lettre" rules={[{ required: true }]}>
-                <Input />
-            </Form.Item>
-            <Form.Item name="montant" label="Montant" rules={[{ required: true }]}>
-                <Input type="number" />
-            </Form.Item>
-            <Form.Item name="taux_remboursement" label="Taux Remboursement" rules={[{ required: true }]}>
-                <Input type="number" />
-            </Form.Item>
-            <Form.Item name="taux_remboursement_public" label="Taux Remboursement Public" rules={[{ required: true }]}>
-                <Input type="number" />
-            </Form.Item>
-            <Form.Item name="plafond" label="Plafond" rules={[{ required: true }]}>
-                <Input type="number" />
-            </Form.Item>
-            <Form.Item name="periode" label="Période" rules={[{ required: true }]}>
-                <Input type="number" />
-            </Form.Item>
-            <Form.Item name="cotation" label="Cotation" rules={[{ required: true }]}>
-                <Input type="number" />
-            </Form.Item>
-            <Form.Item name="code_type_prestataire" label="Code Type Prestataire" rules={[{ required: true }]}>
-                <Select placeholder="Select a Code Type Prestataire">
-                    {codeTypePrestataires.map((item) => (
-                        <Option key={item.id} value={item.id}>
-                            {item.libelle}
-                        </Option>
-                    ))}
-                </Select>
-            </Form.Item>
-            <Form.Item name="nature" label="Nature" rules={[{ required: true }]}>
-                <Select placeholder="Select a Nature">
-                    {natures.map((item) => (
-                        <Option key={item.id} value={item.id}>
-                            {item.libelle}
-                        </Option>
-                    ))}
-                </Select>
-            </Form.Item>
-            <Form.Item name="date_debut" label="Date Début" rules={[{ required: true }]}>
-                <DatePicker />
-            </Form.Item>
-
-
-        </Form>
+            </Form>
 
         </Modal >
     );
