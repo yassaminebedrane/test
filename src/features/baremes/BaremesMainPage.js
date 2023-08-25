@@ -8,7 +8,10 @@ import { EditOutlined, DeleteOutlined, PlusCircleOutlined } from '@ant-design/ic
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getBaremes, searchBaremesByType, getCodeActes, getCodeSousActes, getCodeTypePrestataires, getNatures, filterBaremes, updateBareme } from '../../api/baremesApi';
+import {
+    getBaremes, searchBaremesByType, getCodeActes, getCodeSousActes, getCodeTypePrestataires, getNatures, filterBaremes, updateBareme, getCodeTypePrestataireById, getCodeActeById,
+    getCodeSousActeById
+} from '../../api/baremesApi';
 import AddBaremeModal from './AddBaremeModal';
 import UpdateBaremeModal from './UpdateBaremeModal';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
@@ -29,18 +32,11 @@ const BaremesMainPage = () => {
     // const [itemsPerPage, setItemsPerPage] = useState(10);
 
     const [selectedCodeActe, setSelectedCodeActe] = useState(null);
-    const [selectedCodeSousActe, setSelectedCodeSousActe] = useState(null);
-    const [codeSousActeOptions, setCodeSousActeOptions] = useState([]);
-
     const [rawData, setRawData] = useState([]);
 
     // State for displayed data after filtering
     const [displayedData, setDisplayedData] = useState([]);
-  
-    // State for the search text
     const [searchText, setSearchText] = useState('');
-  
-
 
     const [globalSearchText, setGlobalSearchText] = useState('');
 
@@ -62,10 +58,6 @@ const BaremesMainPage = () => {
     const { data: codeSousActes } = useQuery('codeSousActes', getCodeSousActes);
     const { data: codeTypePrestataires } = useQuery('codeTypePrestataires', getCodeTypePrestataires);
     const { data: natures } = useQuery('natures', getNatures);
-
-
-
-
 
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -129,13 +121,10 @@ const BaremesMainPage = () => {
     };
 
     const handleTableChange = (pagination, filters, sorter) => {
-        console.log(sorter.order, sorter.field);
+        // console.log(sorter.order, sorter.field);
         setSortOrder(sorter.order);
         setSortColumn(sorter.field);
     };
-
-
-
 
     const handleTypeSelect = async (value) => {
         setSelectedType(value);
@@ -146,7 +135,7 @@ const BaremesMainPage = () => {
         setSelectedCodeActe(value);
     };
 
-    
+
 
     // useEffect(() => {
     //     const fetchFilteredBaremes = async () => {
@@ -163,15 +152,17 @@ const BaremesMainPage = () => {
     //     fetchFilteredBaremes();
     // }, [selectedType, selectedCodeActe]);
 
+
     const { data: filteredData } = useQuery(
-        ['filteredBaremes', selectedType, selectedCodeActe, globalSearchText],
-        () => filterBaremes(selectedType, selectedCodeActe, globalSearchText),
+        ['filteredBaremes', selectedType, selectedCodeActe],
+        () => filterBaremes(selectedType, selectedCodeActe),
         {
-            enabled: selectedType !== null || selectedCodeActe !== null || globalSearchText !== null,
-            refetchOnWindowFocus: false, // Customize refetching behavior as needed
+            enabled: selectedType !== null || selectedCodeActe !== null,
+            refetchOnWindowFocus: false,
         }
     );
 
+    
     useEffect(() => {
         if (filteredData) {
             setBaremesData(filteredData);
@@ -184,18 +175,18 @@ const BaremesMainPage = () => {
 
     const handleCloseAddModal = () => {
         setIsAddModalVisible(false);
-        queryClient.invalidateQueries('baremes');
+        queryClient.invalidateQueries('filteredBaremes');
 
     };
 
     const handleShowUpdateModal = () => {
         setIsUpdateModalVisible(true);
-        
+
     };
 
     const handleCloseUpdateModal = () => {
         setIsUpdateModalVisible(false);
-        queryClient.invalidateQueries('baremes');
+        queryClient.invalidateQueries('filteredBaremes');
 
     };
 
@@ -205,7 +196,7 @@ const BaremesMainPage = () => {
 
     const handleCloseDeleteConfirmationModal = () => {
         setIsConfirmationModalVisible(false);
-        queryClient.invalidateQueries('baremes');
+        queryClient.invalidateQueries('filteredBaremes');
 
     };
 
@@ -232,18 +223,69 @@ const BaremesMainPage = () => {
         }
     });
 
-
     const filteredBaremes = filteredData
-        ? filteredData.filter((bareme) =>
-            Object.values(bareme).some((value) =>
-                value.toString().toLowerCase().includes(globalSearchText.toLowerCase())
-            )
-        )
+        ? filteredData.filter((bareme) => {
+            let matchesSearch = false;
+            // console.log(bareme)
+            for (const [key, value] of Object.entries(bareme)) {
+                let searchableValue = value;
+                switch (key) {
+                    case "code_acte":
+                        searchableValue = codeActes.find(acte => acte.id === value).libelle;
+                        break;
+                    case "code_sous_acte":
+                        searchableValue = codeSousActes.find(sousActe => sousActe.id === value).libelle;
+                        console.log("code_sous_acte", searchableValue)
+                        break;
+                    case "code_type_prestataire":
+                        searchableValue = codeTypePrestataires.find(typePrestataire => typePrestataire.id === value).libelle;
+                        console.log("code_type_prestataire", searchableValue)
+                        break;
+                    case "nature":
+                        searchableValue = natures.find(nature => nature.id === value).libelle;
+                        console.log("nature", searchableValue)
+                        break;
+                    case "type_tarif":
+                        searchableValue = value === "U" ? "Unitaire" : value === "P" ? "Forfaitaire" : "";
+                        break;
+                    case "date_debut":
+                        const dateParts = value.split("/");
+                        const day = parseInt(dateParts[0], 10);
+                        const month = parseInt(dateParts[1] - 1, 10);
+                        const year = parseInt(dateParts[2], 10);
+                        const dateDebut = new Date(year, month, day);
+            
+                        const formattedDate = `${day.toString().padStart(2, "0")}/${(month + 1)
+                            .toString()
+                            .padStart(2, "0")}/${year}`;
+            
+                        if (formattedDate.toLowerCase().includes(globalSearchText.toLowerCase())) {
+                            matchesSearch = true;
+                            break;
+                        }
+                        break;
+                }
+
+                if (
+                    searchableValue
+                        .toString()
+                        .toLowerCase()
+                        .includes(globalSearchText.toLowerCase())
+                ) {
+                    matchesSearch = true;
+                    break;
+                }
+            }
+
+            return matchesSearch;
+        })
         : filteredData;
+
 
 
     const handleGlobalSearch = (e) => {
         setGlobalSearchText(e.target.value);
+
     };
 
 
@@ -266,7 +308,7 @@ const BaremesMainPage = () => {
         try {
             await updateBaremeMutation.mutateAsync(updatedBareme);
             console.log('Bareme réactivé avec succès');
-            queryClient.invalidateQueries('baremes');
+            queryClient.invalidateQueries('filteredBaremes');
         } catch (error) {
             console.error('Error reactivating bareme:', error);
         }
@@ -277,6 +319,8 @@ const BaremesMainPage = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
+            render: (text) => renderHighlightedColumn(text),
+
         },
         {
             title: 'Code Acte',
@@ -284,8 +328,10 @@ const BaremesMainPage = () => {
             key: 'code_acte',
             render: (codeActeId) => {
                 const codeActe = codeActes.find(acte => acte.id === codeActeId);
-                return codeActe ? codeActe.libelle : '-';
-            },
+                const libelle = codeActe ? codeActe.libelle : '-';
+
+                return renderHighlightedColumn(libelle)
+            }
         },
         {
             title: 'Code Sous Acte',
@@ -293,57 +339,73 @@ const BaremesMainPage = () => {
             key: 'code_sous_acte',
             render: (codeSousActeId) => {
                 const codeSousActe = codeSousActes.find(acte => acte.id === codeSousActeId);
-                return codeSousActe ? codeSousActe.libelle : '-';
+                return renderHighlightedColumn(codeSousActe ? codeSousActe.libelle : '-');
             },
         },
         {
             title: 'Type Bareme',
             dataIndex: 'type_bareme',
             key: 'type_bareme',
+            render: (text) => renderHighlightedColumn(text),
+
         },
         {
             title: 'Type Tarif',
             dataIndex: 'type_tarif',
             key: 'type_tarif',
-            render: (typeTarif) => (
-                typeTarif === 'P' ? 'Forfaitaire' : (typeTarif === 'U' ? 'Unitaire' : 'Unknown')
-            ),
+            render: (typeTarif) => {
+                return renderHighlightedColumn((typeTarif === 'P' ? 'Forfaitaire' : (typeTarif === 'U' ? 'Unitaire' : 'Unknown')))
+            },
         },
 
         {
             title: 'Type Lette',
             dataIndex: 'type_lette',
             key: 'type_lette',
+            render: (text) => renderHighlightedColumn(text),
+
         },
         {
             title: 'Montant',
             dataIndex: 'montant',
             key: 'montant',
+            render: (text) => renderHighlightedColumn(text),
+
         },
         {
             title: 'Taux Remboursement',
             dataIndex: 'taux_remboursement',
             key: 'taux_remboursement',
+            render: (text) => renderHighlightedColumn(text),
+
         },
         {
             title: 'Taux Remboursement Public',
             dataIndex: 'taux_remboursement_public',
             key: 'taux_remboursement_public',
+            render: (text) => renderHighlightedColumn(text),
+
         },
         {
             title: 'Plafond',
             dataIndex: 'plafond',
             key: 'plafond',
+            render: (text) => renderHighlightedColumn(text),
+
         },
         {
             title: 'Periode',
             dataIndex: 'periode',
             key: 'periode',
+            render: (text) => renderHighlightedColumn(text),
+
         },
         {
             title: 'Cotation',
             dataIndex: 'cotation',
             key: 'cotation',
+            render: (text) => renderHighlightedColumn(text),
+
         },
         {
             title: 'Code Type Prestataire',
@@ -351,8 +413,10 @@ const BaremesMainPage = () => {
             key: 'code_type_prestataire',
             render: (codeTypePrestataireId) => {
                 const codeTypePrestataire = codeTypePrestataires.find(acte => acte.id === codeTypePrestataireId);
-                return codeTypePrestataire ? codeTypePrestataire.libelle : '-';
-            },
+                const libelle = codeTypePrestataire ? codeTypePrestataire.libelle : '-';
+
+                return renderHighlightedColumn(libelle)
+            }
         },
         {
             title: 'Nature',
@@ -360,7 +424,7 @@ const BaremesMainPage = () => {
             key: 'nature',
             render: (natureId) => {
                 const nature = natures.find(nature => nature.id === natureId);
-                return nature ? nature.libelle : '-';
+                return renderHighlightedColumn(nature ? nature.libelle : '-');
             },
         },
         {
@@ -459,7 +523,8 @@ const BaremesMainPage = () => {
 
                 <Select style={{ width: 400, marginRight: '10px' }} placeholder="Code Acte"
                     value={selectedCodeActe}
-                    onChange={handleCodeActeSelect}>
+                    onChange={handleCodeActeSelect}
+                    disabled={!selectedType}>
                     {codeActes && codeActes.map((value) => (
                         <Option key={value.id} value={value.id}>
                             {value.libelle}

@@ -23,7 +23,7 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
 
     const queryClient = useQueryClient();
 
-   
+
     const typeBareme = [
         'FMSAR', 'AMO', 'CNOPS', 'WAFA1',
         'HP0', 'CHU',
@@ -64,6 +64,10 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
         setSelectedCodeActe(value);
         setSelectedCodeSousActe(null);
     };
+    const handleCodeSousActeSelect = (value) => {
+        setSelectedCodeSousActe(value);
+      };
+
 
     useEffect(() => {
         fetchCodeTypePrestataires();
@@ -91,32 +95,32 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
     const handleFormSubmit = async () => {
         try {
             const values = await form.validateFields();
-            
+
             const newBareme = {
                 ...values,
                 etat: 0
             };
-    
+
             await addBaremeMutation.mutateAsync(newBareme);
             form.resetFields();
             onClose();
             showToastMessage();
-    
+
         } catch (error) {
             console.error('Form validation error:', error);
         }
     };
-    
-    
+
+
 
     const showToastMessage = () => {
         toast.success('Bareme ajouté avec succès', {
             position: toast.POSITION.TOP_CENTER,
             transition: Slide,
             autoClose: 3000,
-            hideProgressBar: true, 
-            closeOnClick: true, 
-            pauseOnHover: true, 
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
         });
     };
     const handleCancel = () => {
@@ -139,7 +143,7 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
 
         >
             <Form form={form} layout="vertical">
-            <Form.Item name="type_bareme" label="Type Barème" rules={[{ required: true }]}>
+                <Form.Item name="type_bareme" label="Type Barème" rules={[{ required: true }]}>
                     <Select
                         placeholder="Type barème"
                     >
@@ -150,11 +154,13 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
                         ))}
                     </Select>
                 </Form.Item>
-                
+
                 <Form.Item name="code_acte" label="Code Acte" rules={[{ required: true }]}>
-                    <Select placeholder="Select a Code Acte"
+                    <Select
+                        placeholder="Select a Code Acte"
                         onChange={handleCodeActeSelect}
-                        value={selectedCodeActe}>
+                        value={selectedCodeActe}
+                    >
                         {codeActes.map((codeActe) => (
                             <Option key={codeActe.id} value={codeActe.id}>
                                 {codeActe.libelle}
@@ -163,10 +169,13 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
                     </Select>
                 </Form.Item>
 
-
                 <Form.Item name="code_sous_acte" label="Code Sous Acte" rules={[{ required: true }]}>
-                    <Select placeholder="Select a Code Sous Acte" disabled={!selectedCodeActe}
-                    value={selectedCodeSousActe}>
+                    <Select
+                        placeholder="Select a Code Sous Acte"
+                        disabled={!selectedCodeActe}
+                        value={selectedCodeSousActe}
+                        onChange={handleCodeSousActeSelect} 
+                    >
                         {codeSousActes.map((codeSousActe) => (
                             <Option key={codeSousActe.id} value={codeSousActe.id}>
                                 {codeSousActe.libelle}
@@ -176,7 +185,8 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
                 </Form.Item>
 
 
-               
+
+
 
 
                 <Form.Item name="type_tarif" label="Type Tarif" rules={[{ required: true }]}>
@@ -212,7 +222,7 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
                     <Select placeholder="Select a Code Type Prestataire">
                         {codeTypePrestataires.map((item) => (
                             <Option key={item.id} value={item.id}>
-                                {item.libelle} 
+                                {item.libelle}
                             </Option>
                         ))}
                     </Select>

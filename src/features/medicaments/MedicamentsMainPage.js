@@ -43,7 +43,7 @@ const MedicamentList = () => {
             throw new Error('Failed to fetch data');
         }
     });
-
+            
     const addMedicamentMutation = useMutation(addMedicament, {
         onSuccess: () => {
             queryClient.invalidateQueries('medicaments');

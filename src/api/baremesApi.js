@@ -25,11 +25,17 @@ export const getCodeSousActesByCodeActe = async (codeActeId) => {
 
 export const getCodeActeById = async (id) => {
     const response = await api.get(`/code_actes/${id}`);
-    return response.data;
+return response.data;
 };
+
 
 export const getCodeSousActeById = async (id) => {
     const response = await api.get(`/code_sous_actes/${id}`);
+    return response.data;
+};
+
+export const getCodeTypePrestataireById = async (id) => {
+    const response = await api.get(`/type_prestataires/${id}`);
     return response.data;
 };
 
