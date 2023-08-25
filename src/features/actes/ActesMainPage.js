@@ -8,7 +8,7 @@ import { EditOutlined, DeleteOutlined, PlusCircleOutlined } from '@ant-design/ic
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getBaremes, searchBaremesByType, getCodeActes, getCodeSousActes, getCodeTypePrestataires, getNatures, filterBaremes, updateBareme } from '../../api/baremesApi';
+import { getCodeActes, getCodeSousActes, getCodeSousActesByCodeActe } from '../../api/baremesApi';
 // import AddBaremeModal from './AddBaremeModal';
 // import UpdateBaremeModal from './UpdateBaremeModal';
 // import DeleteConfirmationModal from './DeleteConfirmationModal';
@@ -17,9 +17,17 @@ import { getBaremes, searchBaremesByType, getCodeActes, getCodeSousActes, getCod
 
 
 function ActesMainPage() {
+    const [selectedCodeActe, setSelectedCodeActe] = useState(null);
+    const [selectedCodeSousActe, setSelectedCodeSousActe] = useState(null);
+    const [codeSousActes, setCodeSousActes] = useState([]);
+    const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+
+
+    const queryClient = useQueryClient();
+
     const { isLoading, isError, data: codeActes } = useQuery('codeActes', getCodeActes);
 
-    const columns = [
+    const columnsCodeActes = [
         {
             title: 'ID',
             dataIndex: 'id',
@@ -32,6 +40,7 @@ function ActesMainPage() {
         },
     ];
 
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -39,6 +48,56 @@ function ActesMainPage() {
     if (isError) {
         return <div>Error fetching data</div>;
     }
+
+  
+    
+    
+  
+    const toggleExpand = (codeActeId) => {
+      if (expandedRowKeys.includes(codeActeId)) {
+        // If the row is already expanded, collapse it
+        setExpandedRowKeys([]);
+      } else {
+        // Expand the row
+        setExpandedRowKeys([codeActeId]);
+      }
+    };
+
+    const CodeSousActesTable = ({ codeActeId }) => {
+        const { data, isLoading, isError } = useQuery(['codeSousActes', codeActeId], () =>
+          getCodeSousActesByCodeActe(codeActeId)
+        );
+      
+        const columnsCodeSousActes = [
+          {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+          },
+          {
+            title: 'Libelle',
+            dataIndex: 'libelle',
+            key: 'libelle',
+          },
+        ];
+      
+        if (isLoading) {
+          return <div>Loading...</div>;
+        }
+      
+        if (isError) {
+          return <div>Error fetching data</div>;
+        }
+      
+        return (
+          <Table
+            columns={columnsCodeSousActes}
+            dataSource={data}
+            pagination={false}
+            rowKey="id"
+          />
+        );
+      };
 
     return (
        
@@ -58,15 +117,16 @@ function ActesMainPage() {
         </div>
         <div>
         <Table
-            dataSource={codeActes}
-            columns={columns}
-            expandable={{
-                expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.libelle}</p>,
-                rowExpandable: (record) => record.libelle !== 'Not Expandable',
-              }}
-            rowKey="id"
-            pagination={{ pageSize: 10 }}
-        />
+        dataSource={codeActes}
+        columns={columnsCodeActes}
+        expandable={{
+          expandedRowRender: (record) => (
+            <CodeSousActesTable codeActeId={record.id} />
+          ),
+          rowExpandable: (record) => true, 
+        }}
+        rowKey="id"
+      />
         </div>
         </div>
         
@@ -75,3 +135,86 @@ function ActesMainPage() {
 
 
 export default ActesMainPage
+
+// import React, { useState } from 'react';
+// import { Table, Button, Space } from 'antd';
+// import Highlighter from 'react-highlight-words';
+// import { useQuery } from 'react-query'; // Import useQuery
+// import { getCodeActes, getCodeSousActesByCodeActe } from '../../api/baremesApi';
+
+// // ... Rest of your imports and code
+
+// const ActesMainPage = () => {
+//   const { isLoading, isError, data: codeActes } = useQuery('codeActes', getCodeActes);
+//   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+
+//   const columnsCodeActes = [
+//     // ... Your Code Actes columns
+//   ];
+
+  
+
+//   const toggleExpand = (codeActeId) => {
+//     if (expandedRowKeys.includes(codeActeId)) {
+//       // If the row is already expanded, collapse it
+//       setExpandedRowKeys([]);
+//     } else {
+//       // Expand the row
+//       setExpandedRowKeys([codeActeId]);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <Table
+//         dataSource={codeActes}
+//         columns={columnsCodeActes}
+//         expandable={{
+//           expandedRowRender: (record) => (
+//             <CodeSousActesTable codeActeId={record.id} />
+//           ),
+//           rowExpandable: (record) => true, // All rows are expandable
+//         }}
+//         rowKey="id"
+//       />
+//     </div>
+//   );
+// };
+
+// const CodeSousActesTable = ({ codeActeId }) => {
+//   const { data, isLoading, isError } = useQuery(['codeSousActes', codeActeId], () =>
+//     getCodeSousActesByCodeActe(codeActeId)
+//   );
+
+//   const columnsCodeSousActes = [
+//     {
+//       title: 'ID',
+//       dataIndex: 'id',
+//       key: 'id',
+//     },
+//     {
+//       title: 'Libelle',
+//       dataIndex: 'libelle',
+//       key: 'libelle',
+//     },
+//   ];
+
+//   if (isLoading) {
+//     return <div>Loading...</div>;
+//   }
+
+//   if (isError) {
+//     return <div>Error fetching data</div>;
+//   }
+
+//   return (
+//     <Table
+//       columns={columnsCodeSousActes}
+//       dataSource={data}
+//       pagination={false}
+//       rowKey="id"
+//     />
+//   );
+// };
+
+// export default ActesMainPage;
