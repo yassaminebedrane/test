@@ -66,3 +66,29 @@ body {
     border-color: #02A676 !important;
     /* Change to your desired color */
 }
+
+
+/* Custom table styles for Code Sous Actes */
+.code-sous-actes-table {
+    background-color: #f0f0f0; /* Change the background color */
+    padding: 16px; /* Add padding */
+  }
+  
+  /* Custom column styles for Code Sous Actes */
+  .code-sous-actes-column {
+    background-color: #d9d9d9; /* Change the column background color */
+    color: #000; /* Change the column text color */
+    font-weight: bold; /* Apply bold font to column text */
+  }
+  
+  /* Custom cell styles for Code Sous Actes */
+  .code-sous-actes-cell {
+    background-color: #e6e6e6; /* Change the cell background color */
+    color: #000; /* Change the cell text color */
+  }
+  
+/* Add padding to the Code Sous Actes table wrapper */
+.code-sous-actes-table-wrapper {
+    padding: 45px; /* Adjust the padding as needed */
+  }
+    

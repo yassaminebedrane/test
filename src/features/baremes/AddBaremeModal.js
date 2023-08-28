@@ -184,11 +184,6 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
                     </Select>
                 </Form.Item>
 
-
-
-
-
-
                 <Form.Item name="type_tarif" label="Type Tarif" rules={[{ required: true }]}>
                     <Select placeholder="Select a Type Tarif">
                         <Option value="P">Forfaitaire</Option>
