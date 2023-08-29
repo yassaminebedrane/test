@@ -18,6 +18,8 @@ const AddCodeSousActeModal = ({ isVisible, onClose }) => {
     useEffect(() => {
         async function fetchCodeActes() {
             try {
+                queryClient.invalidateQueries('codeActes');
+
                 const data = await getCodeActes();
                 setCodeActes(data);
             } catch (error) {

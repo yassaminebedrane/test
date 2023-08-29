@@ -19,11 +19,10 @@ import enUS from 'antd/lib/locale/en_US';
 
 
 
-
-
 function ActesMainPage() {
-  const [expandedRowKeys, setExpandedRowKeys] = useState([]);
 
+  const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+  
   const [isAddActeModalVisible, setIsAddActeModalVisible] = useState(false);
   const [isUpdateActeModalVisible, setIsUpdateActeModalVisible] = useState(false);
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);

@@ -18,6 +18,8 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
     const [codeTypePrestataires, setCodeTypePrestataires] = useState([]);
     const [natures, setNatures] = useState([]);
 
+    const [key, setKey] = useState(100);
+
 
     const { Option } = Select;
 
@@ -30,6 +32,11 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
         'HP', 'CHUCNOPS', 'HPCNOPS',
         'SECTMUT',
     ];
+
+    useEffect(() => {
+        setSelectedCodeSousActe(null);
+    }, [selectedCodeActe]);
+    
 
 
     useEffect(() => {
@@ -63,6 +70,9 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
     const handleCodeActeSelect = (value) => {
         setSelectedCodeActe(value);
         setSelectedCodeSousActe(null);
+        // setKey(key + 1);
+        // console.log("key",key)
+        
     };
     const handleCodeSousActeSelect = (value) => {
         setSelectedCodeSousActe(value);
@@ -158,7 +168,7 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
                 <Form.Item name="code_acte" label="Code Acte" rules={[{ required: true }]}>
                     <Select
                         placeholder="Select a Code Acte"
-                        onChange={handleCodeActeSelect}
+                        onChange={(value)=>handleCodeActeSelect(value)}
                         value={selectedCodeActe}
                     >
                         {codeActes.map((codeActe) => (
@@ -174,7 +184,8 @@ const AddBaremeModal = ({ isVisible, onClose, onSubmit }) => {
                         placeholder="Select a Code Sous Acte"
                         disabled={!selectedCodeActe}
                         value={selectedCodeSousActe}
-                        onChange={handleCodeSousActeSelect} 
+                        // key={key}
+                        onChange={(value)=>setSelectedCodeSousActe(value)} 
                     >
                         {codeSousActes.map((codeSousActe) => (
                             <Option key={codeSousActe.id} value={codeSousActe.id}>

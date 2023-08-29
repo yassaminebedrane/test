@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, Switch, DatePicker, Button, Select } from 'antd';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { ToastContainer, toast, Slide } from 'react-toastify';
-import { addCodeActe } from '../../api/codesActes&SousActesApi';
+import { addPathologie } from '../../api/pathologiesApi';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -71,6 +71,13 @@ const AddPathologieModal = ({ isVisible, onClose }) => {
             <Form form={form} layout="vertical">
                 <Form.Item name="libelle" label="Libellé" rules={[{ required: true , message: 'Champ obligatoire' }]}>
                     <Input />
+                </Form.Item>
+                <Form.Item name="type" label="Type" rules={[{ required: true }]}>
+                    <Select placeholder="Selectionnez un Type">
+                        <Option value="ME">Médicale</Option>
+                        <Option value="OP">Optique</Option>
+                        <Option value="DE">Dentaire</Option>
+                    </Select>
                 </Form.Item>
             </Form>
 

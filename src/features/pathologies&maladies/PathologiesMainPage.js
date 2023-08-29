@@ -8,13 +8,14 @@ import { EditOutlined, DeleteOutlined, PlusCircleOutlined } from '@ant-design/ic
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import AddActeModal from './AddActeModal'
-// import UpdateActeModal from './UpdateActeModal';
-// import DeleteConfirmationModal from './DeleteConfirmationModal';
-// import AddCodeSousActeModal from './AddCodeSousActeModal';
-// import UpdateCodeSousActeModal from './UpdateCodeSousActeModal';
 import enUS from 'antd/lib/locale/en_US';
-import { getPathologies,getMaladiesByPathologieId } from '../../api/pathologiesApi';
+import { getPathologies, getMaladiesByPathologieId, updateMaladie, filterPathologies } from '../../api/pathologiesApi';
+
+import AddPathologieModal from './AddPathologiesModal';
+import AddMaladieModal from './AddMaladieModal';
+import UpdatePathologieModal from './UpdatePathologieModal';
+import DeleteConfirmationModal from './DeleteConfirmationModal';
+import UpdateMaladieModal from './UpdateMaladieModal';
 
 
 
@@ -24,18 +25,37 @@ function PathologiesMainPage() {
 
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
 
-  const [isAddActeModalVisible, setIsAddActeModalVisible] = useState(false);
-  const [isUpdateActeModalVisible, setIsUpdateActeModalVisible] = useState(false);
+  const [isAddPathologieModalVisible, setIsAddPathologieModalVisible] = useState(false);
+  const [isUpdatePathologieModalVisible, setIsUpdatePathologieModalVisible] = useState(false);
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
-  const [selectedCode, setSelectedCode] = useState(null);
+  const [selectedPathologie, setSelectedPathologie] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
-  const [isAddCodeSousActeModalVisible, setIsAddCodeSousActeModalVisible] = useState(false)
-  const [isUpdateCodeSousActeModalVisible, setIsUpdateCodeSousActeModalVisible] = useState(false)
+  const [selectedTypePathologie, setSelectedTypePathologie] = useState(null);
+  const [isAddMaladieModalVisible, setIsAddMaladieModalVisible] = useState(false)
+  const [isUpdateMaladieModalVisible, setIsUpdateMaladieModalVisible] = useState(false)
   const [globalSearchText, setGlobalSearchText] = useState('');
 
   const queryClient = useQueryClient();
 
-  const { isLoading, isError, data: codeActes } = useQuery('pathologies', getPathologies);
+  const { Option } = Select;
+
+
+  const { isLoading, isError, data: pathologies } = useQuery('pathologies', getPathologies);
+
+  const updateMaladieMutation = useMutation(updateMaladie, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('maladies');
+    }
+  });
+
+  const { data: filteredData } = useQuery(
+    ['filteredPathologies', selectedTypePathologie],
+    () => filterPathologies(selectedTypePathologie),
+    {
+      enabled: selectedTypePathologie !== null,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const columnsPathologies = [
     {
@@ -55,7 +75,7 @@ function PathologiesMainPage() {
       dataIndex: 'type',
       key: 'type',
       render: (type) => {
-        return renderHighlightedColumn((type === 'ME' ? 'Médicale' : (type === 'OP' ? 'Optique' :  (type === 'DE' ? 'Dentaire' : 'Unknown'))))
+        return renderHighlightedColumn((type === 'ME' ? 'Médicale' : (type === 'OP' ? 'Optique' : (type === 'DE' ? 'Dentaire' : 'Unknown'))))
       },
     },
     {
@@ -71,7 +91,8 @@ function PathologiesMainPage() {
               color: 'white',
               cursor: 'pointer',
             }}
-            onClick={() => handleUpdateCodeActe(record)}          >
+            onClick={() => handleUpdatePathologie(record)}
+          >
             <EditOutlined /> Modifier
           </Button>
           <Button
@@ -81,7 +102,9 @@ function PathologiesMainPage() {
               color: 'white',
               cursor: 'pointer',
             }}
-            onClick={() => handleDeleteCodeActe(record)}
+            onClick={() => handleDeletePathologie(record)}
+
+
           >
             <DeleteOutlined /> Supprimer
           </Button>
@@ -108,13 +131,32 @@ function PathologiesMainPage() {
   //GLOBAL SEARCH
 
 
-  const filteredPathologies = globalSearchText
-    ? codeActes.filter((pathologies) =>
-      Object.values(pathologies).some((value) =>
-        value.toString().toLowerCase().includes(globalSearchText.toLowerCase())
-      )
-    )
-    : codeActes;
+
+  const filteredPathologies = filteredData
+    ? filteredData.filter((pathologie) => {
+      let matchesSearch = false;
+      for (const [key, value] of Object.entries(pathologie)) {
+        let searchableValue = value;
+        switch (key) {
+          case "type":
+            searchableValue = value === "ME" ? "Médicale" : value === "OP" ? "Optique" : value === "DE" ? "Dentaire" : "";
+            break;
+        }
+
+        if (
+          searchableValue
+            .toString()
+            .toLowerCase()
+            .includes(globalSearchText.toLowerCase())
+        ) {
+          matchesSearch = true;
+          break;
+        }
+      }
+
+      return matchesSearch;
+    })
+    : pathologies;
 
   const handleGlobalSearch = (e) => {
     setGlobalSearchText(e.target.value);
@@ -140,31 +182,31 @@ function PathologiesMainPage() {
 
   //MODAL RELATED FUNCTIONS
 
-  const handleShowAddModal = () => {
-    setIsAddActeModalVisible(true);
+  const handleShowAddPathologieModal = () => {
+    setIsAddPathologieModalVisible(true);
   };
 
-  const handleCloseAddActeModal = () => {
-    setIsAddActeModalVisible(false);
-    queryClient.invalidateQueries('codeActes');
-
-  };
-
-  const handleShowUpdateActeModal = () => {
-    setIsUpdateActeModalVisible(true);
-  };
-
-  const handleCloseUpdateActeModal = () => {
-    setIsUpdateActeModalVisible(false);
-    queryClient.invalidateQueries('codeActes');
+  const handleCloseAddPathologieModal = () => {
+    setIsAddPathologieModalVisible(false);
+    queryClient.invalidateQueries('pathologies');
 
   };
 
-  const handleUpdateCodeActe = (record) => {
+  const handleShowUpdatePathologieModal = () => {
+    setIsUpdatePathologieModalVisible(true);
+  };
+
+  const handleCloseUpdatePathologieModal = () => {
+    setIsUpdatePathologieModalVisible(false);
+    queryClient.invalidateQueries('pathologies');
+
+  };
+
+  const handleUpdatePathologie = (record) => {
     console.log("record:", record);
-    setSelectedCode(record);
-    console.log("selected", selectedCode)
-    handleShowUpdateActeModal();
+    setSelectedPathologie(record);
+    console.log("selected", selectedPathologie)
+    handleShowUpdatePathologieModal();
   };
 
   const handleShowDeleteConfirmationModal = () => {
@@ -176,56 +218,70 @@ function PathologiesMainPage() {
 
   };
 
-  const handleDeleteCodeActe = (record) => {
-    setSelectedCode(record);
-    console.log("acte deletion", selectedCode)
-    setSelectedType("acte");
+  const handleDeletePathologie = (record) => {
+    setSelectedPathologie(record);
+    setSelectedType("pathologie");
     handleShowDeleteConfirmationModal();
   };
-  const handleDeleteCodeSousActe = (record) => {
-    setSelectedCode(record);
-    setSelectedType("sousActe");
+  const handleDeleteMaladie = (record) => {
+    setSelectedPathologie(record);
+    setSelectedType("maladie");
     handleShowDeleteConfirmationModal();
   };
 
 
-  const handleShowAddCodeSousActeModal = () => {
-    setIsAddCodeSousActeModalVisible(true);
+  const handleShowAddMaladieModal = () => {
+    setIsAddMaladieModalVisible(true);
   };
 
-  const handleCloseAddCodeSousActeModal = () => {
-    setIsAddCodeSousActeModalVisible(false);
-    queryClient.invalidateQueries('codeActes');
+  const handleCloseAddMaladieModal = () => {
+    setIsAddMaladieModalVisible(false);
+    queryClient.invalidateQueries('pathologies');
 
   };
-  const handleShowUpdateCodeSousActeModal = () => {
-    setIsUpdateCodeSousActeModalVisible(true);
+  const handleShowUpdateMaladieModal = () => {
+    setIsUpdateMaladieModalVisible(true);
   };
 
-  const handleCloseUpdateCodeSousActeModal = () => {
-    setIsUpdateCodeSousActeModalVisible(false);
-    queryClient.invalidateQueries('codeActes');
+  const handleCloseUpdateMaladieModal = () => {
+    setIsUpdateMaladieModalVisible(false);
+    queryClient.invalidateQueries('pathologies');
 
   };
 
-  const handleUpdateCodeSousActe = (record) => {
+  const handleUpdateMaladie = (record) => {
     console.log("record:", record);
-    setSelectedCode(record);
-    console.log("selected", selectedCode)
-    handleShowUpdateCodeSousActeModal();
+    setSelectedPathologie(record);
+    console.log("selected", selectedPathologie)
+    handleShowUpdateMaladieModal();
   };
+
+  const handleReactivate = async (record) => {
+    const updatedMaladie = { ...record, etat: 0 };
+    try {
+      await updateMaladieMutation.mutateAsync(updatedMaladie);
+      console.log('Maladie réactivée avec succès');
+      queryClient.invalidateQueries('maladies');
+    } catch (error) {
+      console.error('Error reactivating maladie:', error);
+    }
+  };
+
+  const handleTypePathologieSelect = async (value) => {
+    setSelectedTypePathologie(value);
+};
 
   //END MODAL RELATED FUNCTIONS
 
 
 
-  const toggleExpand = (codeActeId) => {
-    if (expandedRowKeys.includes(codeActeId)) {
+  const toggleExpand = (PathologieId) => {
+    if (expandedRowKeys.includes(PathologieId)) {
       // If the row is already expanded, collapse it
       setExpandedRowKeys([]);
     } else {
       // Expand the row
-      setExpandedRowKeys([codeActeId]);
+      setExpandedRowKeys([PathologieId]);
     }
   };
 
@@ -242,7 +298,7 @@ function PathologiesMainPage() {
       //   className: 'code-sous-actes-column',
       // },
       {
-        title: 'Libelle Code Sous Acte',
+        title: 'Libelle Maladie',
         dataIndex: 'libelle',
         key: 'libelle',
         className: 'code-sous-actes-column',
@@ -256,6 +312,15 @@ function PathologiesMainPage() {
         ),
       },
       {
+        title: 'Type Maladie',
+        dataIndex: 'type',
+        key: 'type',
+        className: 'code-sous-actes-column',
+        render: (type) => {
+          return renderHighlightedColumn((type === 'CH' ? 'Chronique' : (type === 'NCH' ? 'Non chronique' : "-")))
+        },
+      },
+      {
         title: 'Actions',
         dataIndex: 'actions',
         key: 'actions',
@@ -265,27 +330,44 @@ function PathologiesMainPage() {
             <Button
               className="code-sous-actes-cell"
               style={{
-                backgroundColor: '#80BFB4',
-                borderColor: '#80BFB4',
-                color: 'white',
-                cursor: 'pointer',
+                backgroundColor: record.etat == 0 ? '#80BFB4' : 'lightgray',
+                borderColor: record.etat == 0 ? '#80BFB4' : 'lightgray',
+                color: record.etat == 0 ? 'white' : 'darkgray',
+                cursor: record.etat == 0 ? 'pointer' : 'not-allowed',
               }}
-              onClick={() => handleUpdateCodeSousActe(record)}            >
+              onClick={() => handleUpdateMaladie(record)}
+              disabled={record.etat == 1}
+            >
               <EditOutlined /> Modifier
             </Button>
             <Button
               className="code-sous-actes-cell"
               style={{
-                backgroundColor: '#36594C',
-                borderColor: '#36594C',
-                color: 'white',
-                cursor: 'pointer',
+                backgroundColor: record.etat == 0 ? '#36594C' : 'lightgray',
+                borderColor: record.etat == 0 ? '#36594C' : 'lightgray',
+                color: record.etat == 0 ? 'white' : 'darkgray',
+                cursor: record.etat == 0 ? 'pointer' : 'not-allowed',
               }}
-              onClick={() => handleDeleteCodeSousActe(record)}            >
+              onClick={() => handleDeleteMaladie(record)}
+              disabled={record.etat == 1}
+            >
 
 
               <DeleteOutlined /> Supprimer
             </Button>
+            {record.etat == 1 && (
+              <Button
+                style={{
+                  backgroundColor: 'rgba(2, 166, 118, 0.6)',
+                  borderColor: 'rgba(2, 166, 118, 0.6)',
+                  color: 'white',
+                  cursor: 'pointer',
+                }}
+                onClick={() => handleReactivate(record)}
+              >
+                Réactiver
+              </Button>
+            )}
           </Space>
         ),
       },
@@ -319,13 +401,25 @@ function PathologiesMainPage() {
 
 
         <Button style={{ backgroundColor: '#588C7E', color: 'white' }}
-          onClick={handleShowAddModal}>
+          onClick={handleShowAddPathologieModal}>
           <PlusCircleOutlined /> Ajouter une pathologie
         </Button>
         <Button style={{ backgroundColor: '#588C7E', color: 'white' }}
-          onClick={handleShowAddCodeSousActeModal}>
+          onClick={handleShowAddMaladieModal}>
           <PlusCircleOutlined /> Ajouter une maladie
         </Button>
+        <Select
+          style={{ width: 400, marginRight: '10px',marginLeft: '10px' }}
+          placeholder="Filtrer par type de pathologie"
+          value={selectedTypePathologie}
+          onChange={handleTypePathologieSelect}
+          >
+          <Option value="ME">Médicale</Option>
+          <Option value="OP">Optique</Option>
+          <Option value="DE">Dentaire</Option>
+        </Select>
+        <Button style={{ backgroundColor: '#588C7E', color: 'white', marginRight: '10px' }}
+                    onClick={()=>setSelectedTypePathologie(null)} >Reinitialiser</Button>
         <Input
           placeholder="Recherche"
           onChange={handleGlobalSearch}
@@ -351,40 +445,42 @@ function PathologiesMainPage() {
           />
         </ConfigProvider>
       </div>
-      {/* <AddActeModal
-        isVisible={isAddActeModalVisible}
-        onClose={handleCloseAddActeModal}
-        onCancel={handleCloseAddActeModal}
-      ></AddActeModal>
+      <AddPathologieModal
+        isVisible={isAddPathologieModalVisible}
+        onClose={handleCloseAddPathologieModal}
+        onCancel={handleCloseAddPathologieModal}
+      ></AddPathologieModal>
 
-      <UpdateActeModal
-        isVisible={isUpdateActeModalVisible}
-        onClose={handleCloseUpdateActeModal}
-        onCancel={handleCloseUpdateActeModal}
-        initialData={selectedCode}
+      <AddMaladieModal
+        isVisible={isAddMaladieModalVisible}
+        onClose={handleCloseAddMaladieModal}
+        onCancel={handleCloseAddMaladieModal}
+      ></AddMaladieModal>
 
-      ></UpdateActeModal>
+      <UpdatePathologieModal
+        isVisible={isUpdatePathologieModalVisible}
+        onClose={handleCloseUpdatePathologieModal}
+        onCancel={handleCloseUpdatePathologieModal}
+        initialData={selectedPathologie}
+
+      ></UpdatePathologieModal>
+
 
       <DeleteConfirmationModal
         isVisible={isConfirmationModalVisible}
         onClose={handleCloseDeleteConfirmationModal}
         onCancel={handleCloseDeleteConfirmationModal}
-        code={selectedCode}
+        toDelete={selectedPathologie}
         type={selectedType}
       ></DeleteConfirmationModal>
 
 
-      <AddCodeSousActeModal
-        isVisible={isAddCodeSousActeModalVisible}
-        onClose={handleCloseAddCodeSousActeModal}
-        onCancel={handleCloseAddCodeSousActeModal}
-      ></AddCodeSousActeModal>
-      <UpdateCodeSousActeModal
-        isVisible={isUpdateCodeSousActeModalVisible}
-        onClose={handleCloseUpdateCodeSousActeModal}
-        onCancel={handleCloseUpdateCodeSousActeModal}
-        initialData={selectedCode}
-      ></UpdateCodeSousActeModal> */}
+      <UpdateMaladieModal
+        isVisible={isUpdateMaladieModalVisible}
+        onClose={handleCloseUpdateMaladieModal}
+        onCancel={handleCloseUpdateMaladieModal}
+        initialData={selectedPathologie}
+      ></UpdateMaladieModal>
 
 
 

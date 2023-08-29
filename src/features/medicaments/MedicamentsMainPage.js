@@ -12,6 +12,8 @@ import UpdateMedicamentModal from './UpdateMedicamentModal';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import enUS from 'antd/lib/locale/en_US';
+
 
 
 
@@ -377,6 +379,9 @@ const MedicamentList = () => {
                     loading={isLoading}
                     rowKey="id"
                     onChange={handleTableChange}
+                    locale={{
+                        emptyText: 'AUCUNE DONNEE',
+                      }}
 
                 // pagination={{
                 //     pageSize: itemsPerPage,

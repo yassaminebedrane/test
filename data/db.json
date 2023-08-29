@@ -571,6 +571,10 @@
   ],
   "code_actes": [
     {
+      "id": 1,
+      "libelle": "Code Acte 1"
+    },
+    {
       "id": 2,
       "libelle": "Code Acte 2"
     },
@@ -600,6 +604,11 @@
     }
   ],
   "code_sous_actes": [
+    {
+      "id": 1,
+      "code_acte": 1,
+      "libelle": "Code Sous Acte 1"
+    },
     {
       "id": 2,
       "code_acte": 2,
@@ -704,383 +713,393 @@
       "libelle": "Nature 8"
     }
   ],
-
-  
-  "pathologies":[
+  "pathologies": [
     {
-        "id": 1,
-        "libelle": "Hypertension",
-        "type": "ME"
-    },
-    {
-        "id": 2,
-        "libelle": "Diabète",
-        "type": "ME"
-    },
-    {
-        "id": 3,
-        "libelle": "Arthrite",
-        "type": "ME"
-    },
-    {
-        "id": 4,
-        "libelle": "Cancer",
-        "type": "ME"
-    },
-    {
-        "id": 5,
-        "libelle": "Asthme",
-        "type": "ME"
-    },
-    {
-        "id": 6,
-        "libelle": "Cataracte",
-        "type": "OP"
-    },
-    {
-        "id": 7,
-        "libelle": "Glaucome",
-        "type": "OP"
-    },
-    {
-        "id": 8,
-        "libelle": "Myopie",
-        "type": "OP"
-    },
-    {
-        "id": 9,
-        "libelle": "Dent de sagesse",
-        "type": "DE"
-    },
-    {
-        "id": 10,
-        "libelle": "Carie dentaire",
-        "type": "DE"
-    },
-    {
-        "id": 11,
-        "libelle": "Migraine",
-        "type": "ME"
-    },
-    {
-        "id": 12,
-        "libelle": "Sinusite",
-        "type": "ME"
-    },
-    {
-        "id": 13,
-        "libelle": "Appendicite",
-        "type": "ME"
-    },
-    {
-        "id": 14,
-        "libelle": "Fracture du poignet",
-        "type": "ME"
-    },
-    {
-        "id": 15,
-        "libelle": "Cataracte",
-        "type": "OP"
-    },
-    {
-        "id": 16,
-        "libelle": "Presbytie",
-        "type": "OP"
-    },
-    {
-        "id": 17,
-        "libelle": "Problèmes de gencives",
-        "type": "DE"
-    },
-    {
-        "id": 18,
-        "libelle": "Chirurgie dentaire",
-        "type": "DE"
-    },
-    {
-        "id": 19,
-        "libelle": "Bronchite",
-        "type": "ME"
-    },
-    {
-        "id": 20,
-        "libelle": "Tuberculose",
-        "type": "ME"
-    },
-    {
-        "id": 21,
-        "libelle": "Chirurgie oculaire au laser",
-        "type": "OP"
-    },
-    {
-        "id": 22,
-        "libelle": "Implants dentaires",
-        "type": "DE"
-    },
-    {
-        "id": 23,
-        "libelle": "Allergies",
-        "type": "ME"
-    },
-    {
-        "id": 24,
-        "libelle": "Problèmes de vision",
-        "type": "OP"
-    },
-    {
-        "id": 25,
-        "libelle": "Extraction de dents de sagesse",
-        "type": "DE"
-    },
-    {
-        "id": 26,
-        "libelle": "Grippe",
-        "type": "ME"
-    },
-    {
-        "id": 27,
-        "libelle": "Déviation du septum nasal",
-        "type": "ME"
-    },
-    {
-        "id": 28,
-        "libelle": "Infections oculaires",
-        "type": "OP"
-    },
-    {
-        "id": 29,
-        "libelle": "Traitement de canal",
-        "type": "DE"
-    },
-    {
-        "id": 30,
-        "libelle": "Insomnie",
-        "type": "ME"
-    },
-    {
-        "id": 31,
-        "libelle": "Gastro-entérite",
-        "type": "ME"
-    },
-    {
-        "id": 32,
-        "libelle": "Problèmes de réfraction",
-        "type": "OP"
-    },
-    {
-        "id": 33,
-        "libelle": "Blanchiment des dents",
-        "type": "DE"
-    },
-    {
-        "id": 34,
-        "libelle": "Dépression",
-        "type": "ME"
-    },
-    {
-        "id": 35,
-        "libelle": "Hernie discale",
-        "type": "ME"
-    },
-    {
-        "id": 36,
-        "libelle": "Lunettes de vue",
-        "type": "OP"
-    },
-    {
-        "id": 37,
-        "libelle": "Orthodontie",
-        "type": "DE"
-    },
-    {
-        "id": 38,
-        "libelle": "Anxiété",
-        "type": "ME"
-    },
-    {
-        "id": 39,
-        "libelle": "Sciatique",
-        "type": "ME"
-    },
-    {
-        "id": 40,
-        "libelle": "Lentilles de contact",
-        "type": "OP"
-    },
-    {
-        "id": 41,
-        "libelle": "Extraction de dents",
-        "type": "DE"
-    },
-    {
-        "id": 42,
-        "libelle": "Troubles alimentaires",
-        "type": "ME"
-    },
-    {
-        "id": 43,
-        "libelle": "Accident vasculaire cérébral",
-        "type": "ME"
-    },
-    {
-        "id": 44,
-        "libelle": "Chirurgie de la mâchoire",
-        "type": "DE"
-    },
-    {
-        "id": 45,
-        "libelle": "Troubles du sommeil",
-        "type": "ME"
-    },
-    {
-        "id": 46,
-        "libelle": "Douleurs dorsales",
-        "type": "ME"
-    },
-    {
-        "id": 47,
-        "libelle": "Chirurgie des yeux",
-        "type": "OP"
-    },
-    {
-        "id": 48,
-        "libelle": "Problèmes de gencives",
-        "type": "DE"
-    },
-    {
-        "id": 49,
-        "libelle": "Troubles respiratoires",
-        "type": "ME"
-    },
-    {
-        "id": 50,
-        "libelle": "Chirurgie buccale",
-        "type": "DE"
-    }
-],
-"maladies":[
-  {
       "id": 1,
-      "libelle": "Hypertension légère",
-      "pathologie_id": 1,
-      "type": "chronique"
-  },
-  {
+      "libelle": "Hypertension",
+      "type": "ME"
+    },
+    {
       "id": 2,
-      "libelle": "Hypertension sévère",
-      "pathologie_id": 1,
-      "type": "chronique"
-  },
-  {
+      "libelle": "Diabète",
+      "type": "ME"
+    },
+    {
+      "id": 3,
+      "libelle": "Arthrite",
+      "type": "ME"
+    },
+    {
+      "id": 4,
+      "libelle": "Cancer",
+      "type": "ME"
+    },
+    {
+      "id": 5,
+      "libelle": "Asthme",
+      "type": "ME"
+    },
+    {
+      "id": 6,
+      "libelle": "Cataracte",
+      "type": "OP"
+    },
+    {
+      "id": 7,
+      "libelle": "Glaucome",
+      "type": "OP"
+    },
+    {
+      "id": 8,
+      "libelle": "Myopie",
+      "type": "OP"
+    },
+    {
+      "id": 9,
+      "libelle": "Dent de sagesse",
+      "type": "DE"
+    },
+    {
+      "id": 10,
+      "libelle": "Carie dentaire",
+      "type": "DE"
+    },
+    {
+      "id": 11,
+      "libelle": "Migraine",
+      "type": "ME"
+    },
+    {
+      "id": 12,
+      "libelle": "Sinusite",
+      "type": "ME"
+    },
+    {
+      "id": 13,
+      "libelle": "Appendicite",
+      "type": "ME"
+    },
+    {
+      "id": 14,
+      "libelle": "Fracture du poignet",
+      "type": "ME"
+    },
+    {
+      "id": 15,
+      "libelle": "Cataracte",
+      "type": "OP"
+    },
+    {
+      "id": 16,
+      "libelle": "Presbytie",
+      "type": "OP"
+    },
+    {
+      "id": 17,
+      "libelle": "Problèmes de gencives",
+      "type": "DE"
+    },
+    {
+      "id": 18,
+      "libelle": "Chirurgie dentaire",
+      "type": "DE"
+    },
+    {
+      "id": 19,
+      "libelle": "Bronchite",
+      "type": "ME"
+    },
+    {
+      "id": 20,
+      "libelle": "Tuberculose",
+      "type": "ME"
+    },
+    {
+      "id": 21,
+      "libelle": "Chirurgie oculaire au laser",
+      "type": "OP"
+    },
+    {
+      "id": 22,
+      "libelle": "Implants dentaires",
+      "type": "DE"
+    },
+    {
+      "id": 23,
+      "libelle": "Allergies",
+      "type": "ME"
+    },
+    {
+      "id": 24,
+      "libelle": "Problèmes de vision",
+      "type": "OP"
+    },
+    {
+      "id": 25,
+      "libelle": "Extraction de dents de sagesse",
+      "type": "DE"
+    },
+    {
+      "id": 26,
+      "libelle": "Grippe",
+      "type": "ME"
+    },
+    {
+      "id": 27,
+      "libelle": "Déviation du septum nasal",
+      "type": "ME"
+    },
+    {
+      "id": 28,
+      "libelle": "Infections oculaires",
+      "type": "OP"
+    },
+    {
+      "id": 29,
+      "libelle": "Traitement de canal",
+      "type": "DE"
+    },
+    {
+      "id": 30,
+      "libelle": "Insomnie",
+      "type": "ME"
+    },
+    {
+      "id": 31,
+      "libelle": "Gastro-entérite",
+      "type": "ME"
+    },
+    {
+      "id": 32,
+      "libelle": "Problèmes de réfraction",
+      "type": "OP"
+    },
+    {
+      "id": 33,
+      "libelle": "Blanchiment des dents",
+      "type": "DE"
+    },
+    {
+      "id": 34,
+      "libelle": "Dépression",
+      "type": "ME"
+    },
+    {
+      "id": 35,
+      "libelle": "Hernie discale",
+      "type": "ME"
+    },
+    {
+      "id": 36,
+      "libelle": "Lunettes de vue",
+      "type": "OP"
+    },
+    {
+      "id": 37,
+      "libelle": "Orthodontie",
+      "type": "DE"
+    },
+    {
+      "id": 38,
+      "libelle": "Anxiété",
+      "type": "ME"
+    },
+    {
+      "id": 39,
+      "libelle": "Sciatique",
+      "type": "ME"
+    },
+    {
+      "id": 40,
+      "libelle": "Lentilles de contact",
+      "type": "OP"
+    },
+    {
+      "id": 41,
+      "libelle": "Extraction de dents",
+      "type": "DE"
+    },
+    {
+      "id": 42,
+      "libelle": "Troubles alimentaires",
+      "type": "ME"
+    },
+    {
+      "id": 43,
+      "libelle": "Accident vasculaire cérébral",
+      "type": "ME"
+    },
+    {
+      "id": 44,
+      "libelle": "Chirurgie de la mâchoire",
+      "type": "DE"
+    },
+    {
+      "id": 45,
+      "libelle": "Troubles du sommeil",
+      "type": "ME"
+    },
+    {
+      "id": 46,
+      "libelle": "Douleurs dorsales",
+      "type": "ME"
+    },
+    {
+      "id": 47,
+      "libelle": "Chirurgie des yeux",
+      "type": "OP"
+    },
+    {
+      "id": 48,
+      "libelle": "Problèmes de gencives",
+      "type": "DE"
+    },
+    {
+      "id": 49,
+      "libelle": "Troubles respiratoires",
+      "type": "ME"
+    },
+    {
+      "id": 50,
+      "libelle": "Chirurgie buccale",
+      "type": "DE"
+    }
+  ],
+  "maladies": [
+    {
+      "etat": 1,
+      "id": 1
+    },
+    {
+      "etat": 1,
+      "id": 2
+    },
+    {
       "id": 3,
       "libelle": "Diabète de type 1",
       "pathologie_id": 2,
-      "type": "chronique"
-  },
-  {
+      "type": "CH",
+      "etat": 0
+    },
+    {
       "id": 4,
       "libelle": "Diabète de type 2",
       "pathologie_id": 2,
-      "type": "chronique"
-  },
-  {
+      "type": "CH",
+      "etat": 0
+    },
+    {
       "id": 5,
       "libelle": "Arthrite rhumatoïde",
       "pathologie_id": 3,
-      "type": "chronique"
-  },
-  {
+      "type": "CH",
+      "etat": 1
+    },
+    {
       "id": 6,
       "libelle": "Cancer du sein",
       "pathologie_id": 4,
-      "type": "non chronique"
-  },
-  {
+      "type": "NCH",
+      "etat": 0
+    },
+    {
       "id": 7,
       "libelle": "Asthme léger",
       "pathologie_id": 5,
-      "type": "chronique"
-  },
-  {
-      "id": 8,
-      "libelle": "Asthme sévère",
-      "pathologie_id": 5,
-      "type": "chronique"
-  },
-  {
+      "type": "CH",
+      "etat": 1
+    },
+    {
+      "etat": 1,
+      "id": 8
+    },
+    {
       "id": 9,
       "libelle": "Cataracte primaire",
       "pathologie_id": 6,
-      "type": "non chronique"
-  },
-  {
+      "type": "NCH",
+      "etat": 0
+    },
+    {
       "id": 10,
       "libelle": "Glaucome à angle ouvert",
       "pathologie_id": 7,
-      "type": "chronique"
-  },
-  {
+      "type": "CH",
+      "etat": 1
+    },
+    {
       "id": 11,
       "libelle": "Myopie légère",
       "pathologie_id": 8,
-      "type": "non chronique"
-  },
-  {
+      "type": "NCH",
+      "etat": 0
+    },
+    {
       "id": 12,
       "libelle": "Myopie sévère",
       "pathologie_id": 8,
-      "type": "non chronique"
-  },
-  {
+      "type": "NCH",
+      "etat": 0
+    },
+    {
       "id": 13,
       "libelle": "Dent de sagesse incluse",
       "pathologie_id": 9,
-      "type": "non chronique"
-  },
-  {
+      "type": "NCH",
+      "etat": 0
+    },
+    {
       "id": 14,
       "libelle": "Carie dentaire",
       "pathologie_id": 10,
-      "type": "non chronique"
-  },
-  {
-      "id": 15,
-      "libelle": "Migraine épisodique",
-      "pathologie_id": 11,
-      "type": "non chronique"
-  },
-  {
+      "type": "NCH",
+      "etat": 0
+    },
+    {
+      "etat": 0,
+      "id": 15
+    },
+    {
       "id": 16,
       "libelle": "Sinusite aiguë",
       "pathologie_id": 12,
-      "type": "non chronique"
-  },
-  {
+      "type": "NCH",
+      "etat": 0
+    },
+    {
       "id": 17,
       "libelle": "Appendicite aiguë",
       "pathologie_id": 13,
-      "type": "non chronique"
-  },
-  {
+      "type": "NCH",
+      "etat": 0
+    },
+    {
       "id": 18,
       "libelle": "Fracture du poignet",
       "pathologie_id": 14,
-      "type": "non chronique"
-  },
-  {
+      "type": "NCH",
+      "etat": 0
+    },
+    {
       "id": 19,
       "libelle": "Cataracte secondaire",
       "pathologie_id": 6,
-      "type": "non chronique"
-  },
-  {
+      "type": "NCH",
+      "etat": 0
+    },
+    {
       "id": 20,
       "libelle": "Presbytie",
       "pathologie_id": 16,
-      "type": "non chronique"
-  }
-]
-
-
+      "type": "NCH",
+      "etat": 0
+    },
+    {
+      "pathologie_id": 1,
+      "libelle": "Hypertension maladie",
+      "type": "CH",
+      "id": 21,
+      "etat": 0
+    }
+  ]
 }
-

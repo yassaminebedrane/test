@@ -162,7 +162,7 @@ const BaremesMainPage = () => {
         }
     );
 
-    
+
     useEffect(() => {
         if (filteredData) {
             setBaremesData(filteredData);
@@ -226,43 +226,30 @@ const BaremesMainPage = () => {
     const filteredBaremes = filteredData
         ? filteredData.filter((bareme) => {
             let matchesSearch = false;
-            // console.log(bareme)
             for (const [key, value] of Object.entries(bareme)) {
                 let searchableValue = value;
                 switch (key) {
                     case "code_acte":
-                        searchableValue = codeActes.find(acte => acte.id === value).libelle;
+                        const acte = codeActes.find((acte) => acte.id === value);
+                        searchableValue = acte ? acte.libelle : '';
                         break;
                     case "code_sous_acte":
-                        searchableValue = codeSousActes.find(sousActe => sousActe.id === value).libelle;
-                        console.log("code_sous_acte", searchableValue)
+                        const sousActe = codeSousActes.find((sousActe) => sousActe.id === value);
+                        searchableValue = sousActe ? sousActe.libelle : '';
+                        console.log("code_sous_acte", searchableValue);
                         break;
                     case "code_type_prestataire":
-                        searchableValue = codeTypePrestataires.find(typePrestataire => typePrestataire.id === value).libelle;
-                        console.log("code_type_prestataire", searchableValue)
+                        const typePrestataire = codeTypePrestataires.find((typePrestataire) => typePrestataire.id === value);
+                        searchableValue = typePrestataire ? typePrestataire.libelle : '';
+                        console.log("code_type_prestataire", searchableValue);
                         break;
                     case "nature":
-                        searchableValue = natures.find(nature => nature.id === value).libelle;
-                        console.log("nature", searchableValue)
+                        const nature = natures.find((nature) => nature.id === value);
+                        searchableValue = nature ? nature.libelle : '';
+                        console.log("nature", searchableValue);
                         break;
                     case "type_tarif":
                         searchableValue = value === "U" ? "Unitaire" : value === "P" ? "Forfaitaire" : "";
-                        break;
-                    case "date_debut":
-                        const dateParts = value.split("/");
-                        const day = parseInt(dateParts[0], 10);
-                        const month = parseInt(dateParts[1] - 1, 10);
-                        const year = parseInt(dateParts[2], 10);
-                        const dateDebut = new Date(year, month, day);
-            
-                        const formattedDate = `${day.toString().padStart(2, "0")}/${(month + 1)
-                            .toString()
-                            .padStart(2, "0")}/${year}`;
-            
-                        if (formattedDate.toLowerCase().includes(globalSearchText.toLowerCase())) {
-                            matchesSearch = true;
-                            break;
-                        }
                         break;
                 }
 
@@ -500,7 +487,7 @@ const BaremesMainPage = () => {
     }
 
     return (
-        <div style={{ padding: '20px 130px' }}  >
+        <div style={{ padding: '20px 90px' }}  >
             <h1>BAREMES</h1>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
 
@@ -552,6 +539,7 @@ const BaremesMainPage = () => {
                     loading={isLoading}
                     rowKey="id"
                     onChange={handleTableChange}
+                    scroll={{ x: 'max-content' }}
                 />
             </div>
             <ToastContainer />

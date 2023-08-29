@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+/* Center the logo */
+.logo {
+  text-align: center;
+}
+
+/* Add margin to the logo */
+.logo img {
+  margin: 16px; /* Adjust the margin as needed */
+}
+
+.collapsed .logo {
+  width: 10px; /* Adjust the width as needed */
+  height: auto;
+}
