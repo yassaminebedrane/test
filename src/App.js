@@ -2,6 +2,7 @@ import './App.css';
 import MedicamentList from './features/medicaments/MedicamentsMainPage.js';
 import BaremesMainPage from './features/baremes/BaremesMainPage';
 import ActesMainPage from './features/actes&sousActes/ActesMainPage';
+import ClausesSpecialesMainPage from './features/clausesSpeciales/ClausesSpecialesMainPage';
 import React, { useState } from 'react';
 import { Layout, Menu } from 'antd';
 import {
@@ -53,6 +54,9 @@ function Sidebar() {
         <Menu.Item key="4" icon={<HeartOutlined />}>
           <Link to="/pathologies">Pathologies</Link>
         </Menu.Item>
+        <Menu.Item key="5" icon={<HeartOutlined />}>
+          <Link to="/clauses_speciales">Clauses Spéciales</Link>
+        </Menu.Item>
       </Menu>
     </Sider>
   );
@@ -70,6 +74,7 @@ function App() {
               <Route path="/baremes" element={<BaremesMainPage />} />
               <Route path="/actes" element={<ActesMainPage />} />
               <Route path="/pathologies" element={<PathologiesMainPage />} />
+              <Route path="/clauses_speciales" element={<ClausesSpecialesMainPage />} />
               <Route path="/" element={<MedicamentList />} />
             </Routes>
           </Content>

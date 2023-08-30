@@ -278,7 +278,7 @@
       "code_type_prestataire": 5,
       "nature": 5,
       "date_debut": "2023-05-01",
-      "etat": 0
+      "etat": 1
     },
     {
       "id": 6,
@@ -1100,6 +1100,88 @@
       "type": "CH",
       "id": 21,
       "etat": 0
+    }
+  ],
+  "clauses_speciales": [
+    {
+      "id": 1,
+      "libelle": "Cette clause spéciale concerne la confidentialité des informations échangées entre les parties contractantes. Toutes les informations, y compris les données sensibles, doivent être traitées avec la plus grande discrétion et ne peuvent être divulguées à des tiers sans consentement écrit."
+    },
+    {
+      "id": 2,
+      "libelle": "En cas de non-respect des délais stipulés dans le présent contrat, la partie responsable sera passible de pénalités financières. Les pénalités seront calculées en fonction du nombre de jours de retard et du montant total du contrat."
+    },
+    {
+      "id": 3,
+      "libelle": "Il est convenu que toute modification apportée à ce contrat doit être soumise à l'approbation écrite de toutes les parties contractantes. Aucune modification verbale ne sera considérée comme contraignante."
+    },
+    {
+      "id": 4,
+      "libelle": "Le présent contrat est résiliable par l'une ou l'autre des parties moyennant un préavis écrit de 30 jours. La résiliation ne dispense pas des obligations financières en cours au moment de la résiliation."
+    },
+    {
+      "id": 5,
+      "libelle": "Toute dispute ou litige découlant de ce contrat sera soumis à un processus de médiation avant d'être porté devant les tribunaux. Les frais de médiation seront partagés entre les parties."
+    },
+    {
+      "id": 6,
+      "libelle": "Les parties s'engagent à fournir toutes les ressources nécessaires pour la réalisation du projet conformément aux spécifications détaillées dans le présent contrat. Tout manquement à cette obligation entraînera des mesures correctives appropriées."
+    },
+    {
+      "id": 7,
+      "libelle": "Les parties conviennent que ce contrat est régi par les lois de l'État [nom de l'État] et que tout litige découlant de ce contrat sera soumis à la juridiction exclusive des tribunaux de cet État."
+    },
+    {
+      "id": 8,
+      "libelle": "Ce contrat est valable pour une période de [nombre d'années] années à compter de la date de signature. À l'expiration de cette période, il pourra être renouvelé par accord écrit des parties."
+    },
+    {
+      "id": 9,
+      "libelle": "En cas de force majeure, les parties sont temporairement dispensées de l'exécution de leurs obligations contractuelles. Elles doivent toutefois informer immédiatement l'autre partie de la situation et prendre des mesures pour minimiser les impacts."
+    },
+    {
+      "id": 10,
+      "libelle": "Il est expressément convenu que ce contrat ne crée pas de relation d'emploi entre les parties. Chacune des parties conserve son statut d'entrepreneur indépendant."
+    },
+    {
+      "id": 11,
+      "libelle": "Les parties conviennent de maintenir une assurance responsabilité civile adéquate pendant toute la durée du contrat et de fournir une preuve d'assurance à la demande de l'autre partie."
+    },
+    {
+      "id": 12,
+      "libelle": "Les parties s'engagent à protéger mutuellement leurs droits de propriété intellectuelle et à obtenir toutes les autorisations nécessaires pour utiliser des éléments protégés par des droits d'auteur ou des brevets."
+    },
+    {
+      "id": 13,
+      "libelle": "Toute communication officielle entre les parties doit être faite par écrit et envoyée par courrier recommandé ou par courrier électronique avec accusé de réception."
+    },
+    {
+      "id": 14,
+      "libelle": "En cas de résiliation de ce contrat, les parties doivent restituer toutes les propriétés et informations confidentielles de l'autre partie en leur possession, y compris les copies et les enregistrements."
+    },
+    {
+      "id": 15,
+      "libelle": "Le présent contrat est soumis à la disponibilité de financements ou de ressources nécessaires à sa mise en œuvre. En cas de manque de financement, les parties peuvent convenir de sa suspension temporaire ou de sa résiliation."
+    },
+    {
+      "id": 16,
+      "libelle": "Les parties s'engagent à respecter toutes les lois et réglementations applicables pendant la durée du contrat et à obtenir toutes les autorisations nécessaires pour ses activités."
+    },
+    {
+      "id": 17,
+      "libelle": "Les parties conviennent de tenir des réunions régulières pour examiner l'avancement du projet et résoudre les problèmes éventuels. Les comptes rendus de ces réunions seront consignés par écrit."
+    },
+    {
+      "id": 18,
+      "libelle": "En cas de non-paiement des sommes dues en vertu de ce contrat, des intérêts de retard seront facturés au taux de [taux d'intérêt]% par mois, à compter de la date d'échéance."
+    },
+    {
+      "id": 19,
+      "libelle": "Les parties s'engagent à maintenir la confidentialité de toutes les informations commerciales et techniques échangées dans le cadre de ce contrat, même après sa résiliation."
+    },
+    {
+      "id": 20,
+      "libelle": "Les parties reconnaissent que ce contrat représente l'intégralité de l'accord entre elles et remplace tout accord antérieur, qu'il soit écrit ou verbal. Aucune modification ne sera contraignante à moins d'être consignée par écrit et signée par toutes les parties."
     }
   ]
 }
