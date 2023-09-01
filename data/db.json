@@ -1183,5 +1183,71 @@
       "id": 20,
       "libelle": "Les parties reconnaissent que ce contrat représente l'intégralité de l'accord entre elles et remplace tout accord antérieur, qu'il soit écrit ou verbal. Aucune modification ne sera contraignante à moins d'être consignée par écrit et signée par toutes les parties."
     }
+  ],
+  "lettres": [
+    {
+      "id": 1,
+      "texte": "Cher client, nous vous remercions de votre récente visite. Voici le complément d'information que vous avez demandé.",
+      "type_correspondance_id": 3
+    },
+    {
+      "id": 2,
+      "texte": "Nous avons effectué une contre visite pour vérifier les problèmes signalés. Voici les résultats de l'inspection.",
+      "type_correspondance_id": 2
+    },
+    {
+      "id": 3,
+      "texte": "Nous regrettons de vous informer que votre demande a été rejetée. Voici les raisons de ce rejet.",
+      "type_correspondance_id": 3
+    },
+    {
+      "id": 4,
+      "texte": "Cher client, nous avons besoin de plus d'informations pour traiter votre demande. Voici ce que nous avons besoin.",
+      "type_correspondance_id": 1
+    },
+    {
+      "id": 5,
+      "texte": "La contre visite que nous avons effectuée a confirmé les problèmes précédemment signalés. Voici les détails.",
+      "type_correspondance_id": 2
+    },
+    {
+      "id": 6,
+      "texte": "Votre demande a été acceptée et traitée avec succès. Voici les informations que vous avez demandées.",
+      "type_correspondance_id": 1
+    },
+    {
+      "id": 7,
+      "texte": "Cher client, nous avons reçu votre demande de modification. Voici les détails de la modification apportée.",
+      "type_correspondance_id": 2
+    },
+    {
+      "id": 8,
+      "texte": "Nous avons effectué une vérification approfondie et nous sommes heureux de vous informer que votre demande a été approuvée.",
+      "type_correspondance_id": 3
+    },
+    {
+      "id": 9,
+      "texte": "Cher client, nous avons reçu votre réclamation. Voici notre réponse et la résolution proposée.",
+      "type_correspondance_id": 1
+    },
+    {
+      "id": 10,
+      "texte": "Nous avons effectué une vérification complète et votre réclamation a été validée. Voici les étapes suivantes.",
+      "type_correspondance_id": 3
+    }
+  ],
+  "type_correspondance": [
+    {
+      "id": 1,
+      "libelle": "Complément d'information"
+    },
+    {
+      "id": 2,
+      "libelle": "Contre visite"
+    },
+    {
+      "id": 3,
+      "libelle": "Rejet"
+    }
   ]
 }

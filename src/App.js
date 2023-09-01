@@ -10,6 +10,8 @@ import {
   FileOutlined,
   PlayCircleOutlined,
   HeartOutlined,
+  InfoCircleOutlined,
+  MailOutlined ,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -17,7 +19,7 @@ import PathologiesMainPage from './features/pathologies&maladies/PathologiesMain
 import Logo from './css/téléchargement.png'
 
 import Test from './features/test';
-
+import LettresMainPage from './features/lettres/LettresMainPage';
 const { Sider } = Layout;
 const { Content } = Layout;
 
@@ -41,12 +43,12 @@ function Sidebar() {
       </div>
       {/* <button onClick={toggleSidebar}>III</button> */}
 
-      <Menu mode="vertical" defaultSelectedKeys={['1']}>
+      <Menu mode="vertical" >
         <Menu.Item key="1" icon={<MedicineBoxOutlined />}>
-          <Link to="/medicaments">Medicaments</Link>
+          <Link to="/medicaments">Médicaments</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<FileOutlined />}>
-          <Link to="/baremes">Baremes</Link>
+          <Link to="/baremes">Barèmes</Link>
         </Menu.Item>
         <Menu.Item key="3" icon={<PlayCircleOutlined />}>
           <Link to="/actes">Actes</Link>
@@ -54,8 +56,11 @@ function Sidebar() {
         <Menu.Item key="4" icon={<HeartOutlined />}>
           <Link to="/pathologies">Pathologies</Link>
         </Menu.Item>
-        <Menu.Item key="5" icon={<HeartOutlined />}>
+        <Menu.Item key="5" icon={<InfoCircleOutlined />}>
           <Link to="/clauses_speciales">Clauses Spéciales</Link>
+        </Menu.Item>
+        <Menu.Item key="6" icon={<MailOutlined />}>
+          <Link to="/lettres">Lettres</Link>
         </Menu.Item>
       </Menu>
     </Sider>
@@ -75,6 +80,7 @@ function App() {
               <Route path="/actes" element={<ActesMainPage />} />
               <Route path="/pathologies" element={<PathologiesMainPage />} />
               <Route path="/clauses_speciales" element={<ClausesSpecialesMainPage />} />
+              <Route path="/lettres" element={<LettresMainPage />} />
               <Route path="/" element={<MedicamentList />} />
             </Routes>
           </Content>
