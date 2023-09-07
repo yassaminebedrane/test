@@ -26,12 +26,12 @@ const UpdateLettreModal = ({ isVisible, onClose, onSubmit, initialData }) => {
 
     useEffect(() => {
         if (initialData) {
-           
-                form.setFieldsValue({
-                    texte:initialData.texte,
-                    type_correspondance_id:initialData.type_correspondance_id,
-                });
-            
+
+            form.setFieldsValue({
+                texte: initialData.texte,
+                type_correspondance_id: initialData.type_correspondance_id,
+            });
+
 
         }
     }, [isVisible, initialData, form]);
@@ -96,10 +96,10 @@ const UpdateLettreModal = ({ isVisible, onClose, onSubmit, initialData }) => {
 
         >
             <Form form={form} layout="vertical">
-            <Form.Item name="type_correspondance_id" label="Type correspondance" rules={[{ required: true }]}>
+                <Form.Item name="type_correspondance_id" label="Type correspondance" rules={[{ required: true }]}>
                     <Select
                     >
-                        {typesCorrespondances.map((typeCorrespondance) => (
+                        {typesCorrespondances && typesCorrespondances.map((typeCorrespondance) => (
                             <Option key={typeCorrespondance.id} value={typeCorrespondance.id}>
                                 {typeCorrespondance.libelle}
                             </Option>
@@ -113,7 +113,7 @@ const UpdateLettreModal = ({ isVisible, onClose, onSubmit, initialData }) => {
                 >
                     <TextArea rows={10} />
                 </Form.Item>
-                
+
 
             </Form>
 
